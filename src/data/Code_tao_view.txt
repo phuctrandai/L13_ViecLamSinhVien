@@ -1,0 +1,10 @@
+CREATE VIEW [dbo].[V_NGANHDT]
+AS
+SELECT        dbo.NGANHDAOTAO.MaNganh, dbo.NGANHDAOTAO.TenNganh, dbo.TRUONG_NGANH.TrinhDoDaoTao, dbo.TRUONG_NGANH.HeDaoTao, 
+                         dbo.TRUONG_NGANH.HinhThucDaoTao, dbo.TRUONG_NGANH.MaTruong
+FROM            dbo.NGANHDAOTAO INNER JOIN
+                         dbo.TRUONG_NGANH ON dbo.NGANHDAOTAO.MaNganh = dbo.TRUONG_NGANH.MaNganh
+
+GO
+
+
