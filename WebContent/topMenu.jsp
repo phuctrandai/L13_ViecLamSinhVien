@@ -9,7 +9,7 @@
 				<a class="text-dark float-left" href="#">Tên tài khoản</a>
 			</td>
 			<td>
-				<a href="#" class="btn btn-outline-primary">Thông tin tài khoản</a>
+				<a href="taiKhoan?command=info" class="btn btn-outline-primary">Thông tin tài khoản</a>
 			</td>
 			<td>
 				<a href="truong" class="btn btn-outline-primary">Quản lý trường</a>
@@ -21,7 +21,10 @@
 				<a href="#" class="btn btn-outline-primary">Thống kê</a>
 			</td>
 			<td>
-				<a href="#" class="btn btn-outline-danger float-right">Đăng xuất</a>
+				<form action="taiKhoan" method="POST">
+					<input type="hidden" name="command" value="logout">
+					<input type="submit" class="btn btn-outline-danger float-right" value="Đăng xuất">
+				</form>
 			</td>
 		</tr>
 	</table>

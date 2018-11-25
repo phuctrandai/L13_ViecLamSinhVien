@@ -11,8 +11,8 @@ public class TaiKhoanBo {
 	
 	public TaiKhoanBo() { taiKhoanDao = new TaiKhoanDao(); }
 	
-	public TaiKhoanBean getTaiKhoan(String tenTaiKhoan, String matKhau) throws ClassNotFoundException, SQLException {
-		TaiKhoanBean taiKhoan = taiKhoanDao.getTaiKhoan(tenTaiKhoan, matKhau);
+	public TaiKhoanBean getTaiKhoan(String tenTaiKhoan, String matKhau, String loaiTaiKhoan) throws ClassNotFoundException, SQLException {
+		TaiKhoanBean taiKhoan = taiKhoanDao.getTaiKhoan(tenTaiKhoan, matKhau, loaiTaiKhoan);
 		return taiKhoan;		
 	}
 

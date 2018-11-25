@@ -1,11 +1,17 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import bean.SinhVienBean;
+import bean.TaiKhoanBean;
+import bo.SinhVienBo;
 
 /**
  * Servlet implementation class SinhVien
@@ -30,7 +36,7 @@ public class SinhVienController extends HttpServlet {
 		
 		Object taiKhoan = request.getSession().getAttribute("taiKhoan");
 		if(taiKhoan != null) {
-			request.getRequestDispatcher("sinhVien.jsp").forward(request, response);
+			xemThongTinSinhVien(request, response);
 		}
 		else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -41,8 +47,21 @@ public class SinhVienController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	private void xemThongTinSinhVien(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int maTaiKhoan = ((TaiKhoanBean) request.getSession().getAttribute("taiKhoan")).getMaTaiKhoan();
+		
+		SinhVienBo svb = new SinhVienBo();
+		SinhVienBean sv = null;
+		try {
+			sv = svb.GetSinhVienTheoTaiKhoan(maTaiKhoan);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("sinhVien", sv);
+		request.getRequestDispatcher("thongTinSinhVien.jsp").forward(request, response);
 	}
 
 }
