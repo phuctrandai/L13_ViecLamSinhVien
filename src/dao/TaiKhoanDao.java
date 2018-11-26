@@ -44,8 +44,8 @@ public class TaiKhoanDao {
 			tk.setEmail(resultSet.getString("Email"));
 			tk.setGioiTinh(resultSet.getBoolean("GioiTinh"));
 			tk.setHoVaTen(resultSet.getString("HoVaTen"));
-			tk.setNgayCapCMND(resultSet.getDate("NgayCapCMND"));
-			tk.setNgaySinh(resultSet.getDate("NgaySinh"));
+			tk.setNgayCapCMND(resultSet.getDate("NgayCapCMND").toLocalDate());
+			tk.setNgaySinh(resultSet.getDate("NgaySinh").toLocalDate());
 			tk.setNoiCapCMND(resultSet.getString("NoiCapCMND"));
 			tk.setQuocTich(resultSet.getString("QuocTich"));
 			tk.setSoDienThoai(resultSet.getString("SoDienThoai"));

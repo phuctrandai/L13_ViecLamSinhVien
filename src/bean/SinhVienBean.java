@@ -1,15 +1,15 @@
 package bean;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SinhVienBean {
 	private int maSinhVien;
 	private String tenTruong;
-	private Date thoiGianTotNghiep;
+	private LocalDate thoiGianTotNghiep;
 	private String tenNganh;
 	private String nienKhoa;
 	private String soQuyetDinhTotNghiep;
-	private Date ngayKyQuyetDinhTotNghiep;
+	private LocalDate ngayKyQuyetDinhTotNghiep;
 	private ThongTinTaiKhoanBean thongTinTaiKhoan;
 	private ThongTinViecLamBean thongTinViecLam;
 	
@@ -25,10 +25,10 @@ public class SinhVienBean {
 	public void setTenTruong(String tenTruong) {
 		this.tenTruong = tenTruong;
 	}
-	public Date getThoiGianTotNghiep() {
+	public LocalDate getThoiGianTotNghiep() {
 		return thoiGianTotNghiep;
 	}
-	public void setThoiGianTotNghiep(Date thoiGianTotNghiep) {
+	public void setThoiGianTotNghiep(LocalDate thoiGianTotNghiep) {
 		this.thoiGianTotNghiep = thoiGianTotNghiep;
 	}
 	public String getTenNganh() {
@@ -49,10 +49,10 @@ public class SinhVienBean {
 	public void setSoQuyetDinhTotNghiep(String soQuyetDinhTotNghiep) {
 		this.soQuyetDinhTotNghiep = soQuyetDinhTotNghiep;
 	}
-	public Date getNgayKyQuyetDinhTotNghiep() {
+	public LocalDate getNgayKyQuyetDinhTotNghiep() {
 		return ngayKyQuyetDinhTotNghiep;
 	}
-	public void setNgayKyQuyetDinhTotNghiep(Date ngayKyQuyetDinhTotNghiep) {
+	public void setNgayKyQuyetDinhTotNghiep(LocalDate ngayKyQuyetDinhTotNghiep) {
 		this.ngayKyQuyetDinhTotNghiep = ngayKyQuyetDinhTotNghiep;
 	}
 	public ThongTinTaiKhoanBean getThongTinTaiKhoan() {
@@ -67,8 +67,8 @@ public class SinhVienBean {
 	public void setThongTinViecLam(ThongTinViecLamBean thongTinViecLam) {
 		this.thongTinViecLam = thongTinViecLam;
 	}
-	public SinhVienBean(int maSinhVien, String tenTruong, Date thoiGianTotNghiep, String tenNganh,
-			String nienKhoa, String soQuyetDinhTotNghiep, Date ngayKyQuyetDinhTotNghiep,
+	public SinhVienBean(int maSinhVien, String tenTruong, LocalDate thoiGianTotNghiep, String tenNganh,
+			String nienKhoa, String soQuyetDinhTotNghiep, LocalDate ngayKyQuyetDinhTotNghiep,
 			ThongTinTaiKhoanBean thongTinTaiKhoan, ThongTinViecLamBean thongTinViecLam) {
 		super();
 		this.maSinhVien = maSinhVien;

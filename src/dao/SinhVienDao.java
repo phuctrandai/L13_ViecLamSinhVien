@@ -2,7 +2,11 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Formatter;
+
 import bean.SinhVienBean;
 import bean.ThongTinTaiKhoanBean;
 import bean.ThongTinViecLamBean;
@@ -44,11 +48,11 @@ public class SinhVienDao {
 		if (resultSet.next()) {
 			sv.setMaSinhVien(resultSet.getInt("MaSinhVien"));
 			sv.setTenNganh(resultSet.getString("TenNganh"));
-			sv.setNgayKyQuyetDinhTotNghiep(resultSet.getDate("NgayKyQuyetDinhTotNghiep"));
+			sv.setNgayKyQuyetDinhTotNghiep(resultSet.getDate("NgayKyQuyetDinhTotNghiep").toLocalDate());
 			sv.setNienKhoa(resultSet.getString("NienKhoa"));
 			sv.setSoQuyetDinhTotNghiep(resultSet.getString("SoQuyetDinhTotNghiep"));
 			sv.setTenTruong(resultSet.getString("TenTruong"));
-			sv.setThoiGianTotNghiep(resultSet.getDate("ThoiGianTotNghiep"));
+			sv.setThoiGianTotNghiep(resultSet.getDate("ThoiGianTotNghiep").toLocalDate());
 		}
 		resultSet.close();
 		connectDB.Disconnect();
@@ -73,11 +77,11 @@ public class SinhVienDao {
 			sv = new SinhVienBean();
 			sv.setMaSinhVien(resultSet.getInt("MaSinhVien"));
 			sv.setTenNganh(resultSet.getString("TenNganh"));
-			sv.setNgayKyQuyetDinhTotNghiep(resultSet.getDate("NgayKyQuyetDinhTotNghiep"));
+			sv.setNgayKyQuyetDinhTotNghiep(resultSet.getDate("NgayKyQuyetDinhTotNghiep").toLocalDate());
 			sv.setNienKhoa(resultSet.getString("NienKhoa"));
 			sv.setSoQuyetDinhTotNghiep(resultSet.getString("SoQuyetDinhTotNghiep"));
 			sv.setTenTruong(resultSet.getString("TenTruong"));
-			sv.setThoiGianTotNghiep(resultSet.getDate("ThoiGianTotNghiep"));
+			sv.setThoiGianTotNghiep(resultSet.getDate("ThoiGianTotNghiep").toLocalDate());
 			
 			TaiKhoanDao taiKhoanDao = new TaiKhoanDao();
 			ThongTinTaiKhoanBean tk = taiKhoanDao.GetThongTin(maTaiKhoan);
@@ -105,7 +109,7 @@ public class SinhVienDao {
 			vl.setMucThuNhapTBThang(resultSet.getLong("MucThuNhapTBThang"));
 			vl.setTenCongViec(resultSet.getString("TenCongViec"));
 			vl.setTenCoQuan(resultSet.getString("TenCoQuan"));
-			vl.setThoiGianBatDauLamViec(resultSet.getDate("ThoiGianBatDauLamViec"));
+			vl.setThoiGianBatDauLamViec(resultSet.getDate("ThoiGianBatDauLamViec").toLocalDate());
 			vl.setViTriCongTac(resultSet.getString("ViTriCongTac"));
 		}
 		resultSet.close();

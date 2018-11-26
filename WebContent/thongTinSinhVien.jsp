@@ -31,9 +31,9 @@ if(sv != null) {
 	tenTruong = sv.getTenTruong();
 	tenNganh = sv.getTenNganh();
 	nienKhoa = sv.getNienKhoa();
-	thoiGianTotNghiep = sv.getThoiGianTotNghiep().toLocaleString();
+	thoiGianTotNghiep = sv.getThoiGianTotNghiep().toString();
 	soQuyetDinhTotNghiep = sv.getSoQuyetDinhTotNghiep();
-	ngayKyQuyetDinhTotNghiep = sv.getNgayKyQuyetDinhTotNghiep().toLocaleString();
+	ngayKyQuyetDinhTotNghiep = sv.getNgayKyQuyetDinhTotNghiep().toString();
 	
 	if(sv.getThongTinTaiKhoan() != null) {
 		// Thong tin tai khoan
@@ -45,14 +45,14 @@ if(sv != null) {
 		diaChiThuongTru = sv.getThongTinTaiKhoan().getDiaChiThuongTru();
 		soDienThoai = sv.getThongTinTaiKhoan().getSoDienThoai();
 		email = sv.getThongTinTaiKhoan().getEmail();
-		ngaySinh = sv.getThongTinTaiKhoan().getNgaySinh().toLocaleString();
+		ngaySinh = sv.getThongTinTaiKhoan().getNgaySinh().toString();
 		gioiTinh = sv.getThongTinTaiKhoan().isGioiTinh() ? "Nam" : "Nữ";
 	}
 	
 	if(sv.getThongTinViecLam() != null) {
 		// Thong tin viec lam
 		tenCongViec = sv.getThongTinViecLam().getTenCongViec();
-		thoiGianBatDauLamViec = sv.getThongTinViecLam().getThoiGianBatDauLamViec().toLocaleString();
+		thoiGianBatDauLamViec = sv.getThongTinViecLam().getThoiGianBatDauLamViec().toString();
 		tenCoQuan = sv.getThongTinViecLam().getTenCoQuan();
 		diaChiCoQuan = sv.getThongTinViecLam().getDiaChiCoQuan();
 		loaiHinhCoQuan = sv.getThongTinViecLam().getLoaiHinhCoQuan();
@@ -86,15 +86,40 @@ if(sv != null) {
 				</div>
 				<div class="card-body row">
 					<div class="col-md-5 col-sm-12 pl-md-5">
-						<p><b>Họ tên: </b><%=hoTen %></p>
-						<p><b>Ngày sinh: </b><%=ngaySinh %></p>
-						<p><b>Giới tính: </b><%=gioiTinh %></p>
+						<table>
+							<tr>
+								<td><p><b>Họ tên: </b></p></td>
+								<td class="pl-4"><p><%=hoTen %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Ngày sinh: </b></p></td>
+								<td class="pl-4"><p><%=ngaySinh %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Giới tính: </b></p></td>
+								<td class="pl-4"><p><%=gioiTinh %></p></td>
+							</tr>
+						</table>
 					</div>
 					<div class="col-md-5 col-sm-12">
-						<p><b>Dân tộc: </b><%=danToc %></p>
-						<p><b>Quốc tịch: </b><%=quocTich %></p>
-						<p><b>CMND: </b><%=cMND %></p>
-						<p><b>Nơi cấp CMND: </b><%=noiCapCMND %></p>
+						<table>
+							<tr>
+								<td><p><b>Dân tộc: </b></p></td>
+								<td class="pl-4"><p><%=danToc %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Quốc tịch: </b></p></td>
+								<td class="pl-4"><p><%=quocTich %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>CMND: </b></p></td>
+								<td class="pl-4"><p><%=cMND %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Nơi cấp CMND: </b></p></td>
+								<td class="pl-4"><p><%=noiCapCMND %></p></td>
+							</tr>
+						</table>
 					</div>
 					<div class="col-md-2 col-sm-12">
 						<img style="height:150px; width: 150px;"
@@ -122,14 +147,36 @@ if(sv != null) {
 				<div class="card-footer"><h3>Thông tin đào tạo</h3></div>
 				<div class="card-body row">
 					<div class="col-md-5 pl-md-5 col-sm-12">
-						<p><b>Tên trường: </b><%=tenTruong %></p>
-						<p><b>Ngành học: </b><%=tenNganh %></p>
-						<p><b>Niên khóa: </b><%=nienKhoa %></p>
+						<table>
+							<tr>
+								<td><p><b>Tên trường: </b></p></td>
+								<td class="pl-4"><p><%=tenTruong %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Ngành học: </b></p></td>
+								<td class="pl-4"><p><%=tenNganh %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Niên khóa: </b></p></td>
+								<td class="pl-4"><p><%=nienKhoa %></p></td>
+							</tr>
+						</table>
 					</div>
 					<div class="col-md-5 col-sm-12 pl-md-3">
-						<p><b>Thời gian tốt nghiệp: </b><%=thoiGianTotNghiep %></p>
-						<p><b>Số quyết định tốt nghiệp: </b><%=soQuyetDinhTotNghiep %></p>
-						<p><b>Ngày ký quyết định tốt nghiệp: </b><%=ngayKyQuyetDinhTotNghiep %></p>
+						<table>
+							<tr>
+								<td><p><b>Thời gian tốt nghiệp: </b></p></td>
+								<td class="pl-4"><p><%=thoiGianTotNghiep %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Số quyết định tốt nghiệp: </b></p></td>
+								<td class="pl-4"><p><%=soQuyetDinhTotNghiep %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Ngày ký quyết định tốt nghiệp: </b></p></td>
+								<td class="pl-4"><p><%=ngayKyQuyetDinhTotNghiep %></p></td>
+							</tr>
+						</table>
 					</div>
 					<div class="col-md-2 col-sm-12" >
 					</div>
@@ -140,17 +187,48 @@ if(sv != null) {
 				<div class="card-footer"><h3>Thông tin việc làm</h3></div>
 				<div class="card-body row">
 					<div class="col-md-6 col-sm-12 pl-md-5">
-						<p><b>Tên công việc: </b><%=tenCongViec%></p>
-						<p><b>Vị trí công tác: </b><%=viTriCongTac %></p>
-						<p><b>Thời gian bắt đầu làm việc: </b><%=thoiGianBatDauLamViec %></p>
-						<p><b>Mức độ phù hợp chuyên môn: </b><%=mucDoPhuHopChuyenMon %></p>
-						<p><b>Mức độ đáp ứng của kiến thức chuyên môn: </b><%=mucDoDapUngKTCM %></p>
+						<table>
+							<tr>
+								<td><p><b>Tên công việc: </b></p></td>
+								<td class="pl-4"><p><%=tenCongViec %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Vị trí công tác: </b></p></td>
+								<td class="pl-4"><p><%=viTriCongTac %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Thời gian bắt đầu làm việc: </b></p></td>
+								<td class="pl-4"><p><%=thoiGianBatDauLamViec %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Mức độ phù hợp chuyên môn: </b></p></td>
+								<td class="pl-4"><p><%=mucDoPhuHopChuyenMon %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Mức độ đáp ứng của KTCM: </b></p></td>
+								<td class="pl-4"><p><%=mucDoDapUngKTCM %></p></td>
+							</tr>
+						</table>
 					</div>
 					<div class="col-md-6 col-sm-12 pl-md-3">
-						<p><b>Tên cơ quan: </b><%=tenCoQuan %></p>
-						<p><b>Địa chỉ cơ quan: </b><%=diaChiCoQuan %></p>
-						<p><b>Loại hình cơ quan: </b><%=loaiHinhCoQuan %></p>
-						<p><b>Mức thu nhập trung bình tháng: </b><%=mucThuNhapTBThang %></p>
+						<table>
+							<tr>
+								<td><p><b>Tên cơ quan: </b></p></td>
+								<td class="pl-4"><p><%=tenCoQuan %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Địa chỉ cơ quan: </b></p></td>
+								<td class="pl-4"><p><%=diaChiCoQuan %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Loại hình cơ quan: </b></p></td>
+								<td class="pl-4"><p><%=loaiHinhCoQuan %></p></td>
+							</tr>
+							<tr>
+								<td><p><b>Mức thu nhập trung bình tháng: </b></p></td>
+								<td class="pl-4"><p><%=mucThuNhapTBThang %></p></td>
+							</tr>
+						</table>
 					</div>					
 				</div>
 			</div>		

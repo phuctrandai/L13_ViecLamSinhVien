@@ -1,6 +1,6 @@
 package bean;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ThongTinTaiKhoanBean {
 
@@ -9,10 +9,10 @@ public class ThongTinTaiKhoanBean {
 	}
 	
 	private String hoVaTen;
-	private Date ngaySinh;
+	private LocalDate ngaySinh;
 	private boolean gioiTinh;
 	private String cMND;
-	private Date ngayCapCMND;
+	private LocalDate ngayCapCMND;
 	private String noiCapCMND;
 	private String danToc;
 	private String quocTich;
@@ -27,10 +27,10 @@ public class ThongTinTaiKhoanBean {
 	public void setHoVaTen(String hoVaTen) {
 		this.hoVaTen = hoVaTen;
 	}
-	public Date getNgaySinh() {
+	public LocalDate getNgaySinh() {
 		return ngaySinh;
 	}
-	public void setNgaySinh(Date ngaySinh) {
+	public void setNgaySinh(LocalDate ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 	public boolean isGioiTinh() {
@@ -45,10 +45,10 @@ public class ThongTinTaiKhoanBean {
 	public void setcMND(String cMND) {
 		this.cMND = cMND;
 	}
-	public Date getNgayCapCMND() {
+	public LocalDate getNgayCapCMND() {
 		return ngayCapCMND;
 	}
-	public void setNgayCapCMND(Date ngayCapCMND) {
+	public void setNgayCapCMND(LocalDate ngayCapCMND) {
 		this.ngayCapCMND = ngayCapCMND;
 	}
 	public String getNoiCapCMND() {
@@ -93,7 +93,7 @@ public class ThongTinTaiKhoanBean {
 	public void setAnhDaiDien(String anhDaiDien) {
 		this.anhDaiDien = anhDaiDien;
 	}
-	public ThongTinTaiKhoanBean(String hoVaTen, Date ngaySinh, boolean gioiTinh, String cMND, Date ngayCapCMND,
+	public ThongTinTaiKhoanBean(String hoVaTen, LocalDate ngaySinh, boolean gioiTinh, String cMND, LocalDate ngayCapCMND,
 			String noiCapCMND, String danToc, String quocTich, String diaChiThuongTru, String soDienThoai, String email,
 			String anhDaiDien) {
 		super();

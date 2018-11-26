@@ -1,6 +1,9 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="bean.TruongBean"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="bean.SinhVienBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -18,9 +21,11 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <%
+DateFormat df = new SimpleDateFormat("dd.MM.yy");
+
 ArrayList<TruongBean> danhSachTruong = (ArrayList<TruongBean>) request.getAttribute("danhSachTruong");
 SinhVienBean sv = (SinhVienBean) request.getAttribute("sinhVien");
-String hoTen = "", danToc = "", quocTich = "", gioiTinh = "", cMND = "", noiCapCMND = "",
+String hoTen = "", ngaySinh = "", danToc = "", quocTich = "", gioiTinh = "", cMND = "", noiCapCMND = "",
 
 	diaChiThuongTru = "", soDienThoai = "", email = "",
 	
@@ -29,15 +34,14 @@ String hoTen = "", danToc = "", quocTich = "", gioiTinh = "", cMND = "", noiCapC
 	tenCongViec = "", thoiGianBatDauLamViec = "", tenCoQuan = "", diaChiCoQuan = "", loaiHinhCoQuan = "", viTriCongTac = "",
 	
 	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "", mucThuNhapTBThang = "";
-Date ngaySinh = new Date();
 if(sv != null) {
 	// Thong tin dao tao
 	tenTruong = sv.getTenTruong();
 	tenNganh = sv.getTenNganh();
 	nienKhoa = sv.getNienKhoa();
-	thoiGianTotNghiep = sv.getThoiGianTotNghiep().toLocaleString();
+	thoiGianTotNghiep = sv.getThoiGianTotNghiep().toString();
 	soQuyetDinhTotNghiep = sv.getSoQuyetDinhTotNghiep();
-	ngayKyQuyetDinhTotNghiep = sv.getNgayKyQuyetDinhTotNghiep().toLocaleString();
+	ngayKyQuyetDinhTotNghiep = sv.getNgayKyQuyetDinhTotNghiep().toString();
 	
 	if(sv.getThongTinTaiKhoan() != null) {
 		// Thong tin tai khoan
@@ -49,14 +53,14 @@ if(sv != null) {
 		diaChiThuongTru = sv.getThongTinTaiKhoan().getDiaChiThuongTru();
 		soDienThoai = sv.getThongTinTaiKhoan().getSoDienThoai();
 		email = sv.getThongTinTaiKhoan().getEmail();
-		ngaySinh = sv.getThongTinTaiKhoan().getNgaySinh();
+		ngaySinh = sv.getThongTinTaiKhoan().getNgaySinh().toString();
 		gioiTinh = sv.getThongTinTaiKhoan().isGioiTinh() ? "Nam" : "Nữ";
 	}
 	
 	if(sv.getThongTinViecLam() != null) {
 		// Thong tin viec lam
 		tenCongViec = sv.getThongTinViecLam().getTenCongViec();
-		thoiGianBatDauLamViec = sv.getThongTinViecLam().getThoiGianBatDauLamViec().toLocaleString();
+		thoiGianBatDauLamViec = sv.getThongTinViecLam().getThoiGianBatDauLamViec().toString();
 		tenCoQuan = sv.getThongTinViecLam().getTenCoQuan();
 		diaChiCoQuan = sv.getThongTinViecLam().getDiaChiCoQuan();
 		loaiHinhCoQuan = sv.getThongTinViecLam().getLoaiHinhCoQuan();
@@ -87,7 +91,7 @@ if(sv != null) {
 							<div class="form-group">
 								<label id="ngaySinh">Ngày sinh</label>
 								<input type="date" name="ngaySinh" id="ngaySinh" class="form-control" 
-									value="<%=ngaySinh.getYear()%>-<%=ngaySinh.getMonth()%>-<%=ngaySinh.getDay()%>">
+									value="<%=ngaySinh%>">
 							</div>
 							
 							<div class="form-group">
@@ -190,7 +194,7 @@ if(sv != null) {
 						<div class="col-md-4 col-sm-12">
 							<div class="form-group">
 								<label for="thoiGianTotNghiep">Thời gian tốt nghiệp</label>
-								<input type="date" name="thoiGianTotNghiep" id="thoiGianTotNghiep" class="form-control">
+								<input type="date" name="thoiGianTotNghiep" id="thoiGianTotNghiep" class="form-control" value="<%=thoiGianTotNghiep%>">
 							</div>
 							
 							<div class="form-group">
@@ -200,7 +204,7 @@ if(sv != null) {
 							
 							<div class="form-group">
 								<label for="ngayKyQuyetDinh">Ngày ký quyết định tốt nghiệp</label>
-								<input type="date" name="ngayKyQuyetDinh" id="ngayKyQuyetDinh" class="form-control">
+								<input type="date" name="ngayKyQuyetDinh" id="ngayKyQuyetDinh" class="form-control" value="<%=ngayKyQuyetDinhTotNghiep%>">
 							</div>
 						</div>
 					</div>
@@ -247,7 +251,8 @@ if(sv != null) {
 							    		<label for="thoiGianBatDauLamViec">Thời gian bắt đầu làm việc:</label>
 							    	</div>
 							    	<div class="col-md-3 col-sm-12">
-							    		<input type="date" name="thoiGianBatDauLamViec" id="thoiGianBatDauLamViec" class="form-control">
+							    		<input type="date" name="thoiGianBatDauLamViec" id="thoiGianBatDauLamViec" class="form-control"
+							    			value="<%=thoiGianBatDauLamViec%>">
 							    	</div>
 								</div>
 						    	

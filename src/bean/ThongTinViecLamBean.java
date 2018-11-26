@@ -1,6 +1,6 @@
 package bean;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ThongTinViecLamBean {
 
@@ -13,7 +13,7 @@ public class ThongTinViecLamBean {
 	private String tenCoQuan;
 	private String diaChiCoQuan;
 	private String loaiHinhCoQuan;
-	private Date thoiGianBatDauLamViec;
+	private LocalDate thoiGianBatDauLamViec;
 	private String mucDoPhuHopChuyenMon;
 	private String mucDoDapUngKienThuc;
 	private long mucThuNhapTBThang;
@@ -47,10 +47,10 @@ public class ThongTinViecLamBean {
 	public void setLoaiHinhCoQuan(String loaiHinhCoQuan) {
 		this.loaiHinhCoQuan = loaiHinhCoQuan;
 	}
-	public Date getThoiGianBatDauLamViec() {
+	public LocalDate getThoiGianBatDauLamViec() {
 		return thoiGianBatDauLamViec;
 	}
-	public void setThoiGianBatDauLamViec(Date thoiGianBatDauLamViec) {
+	public void setThoiGianBatDauLamViec(LocalDate thoiGianBatDauLamViec) {
 		this.thoiGianBatDauLamViec = thoiGianBatDauLamViec;
 	}
 	public String getMucDoPhuHopChuyenMon() {
@@ -72,7 +72,7 @@ public class ThongTinViecLamBean {
 		this.mucThuNhapTBThang = mucThuNhapTBThang;
 	}
 	public ThongTinViecLamBean(String tenCongViec, String viTriCongTac, String tenCoQuan, String diaChiCoQuan,
-			String loaiHinhCoQuan, Date thoiGianBatDauLamViec, String mucDoPhuHopChuyenMon, String mucDoDapUngKienThuc,
+			String loaiHinhCoQuan, LocalDate thoiGianBatDauLamViec, String mucDoPhuHopChuyenMon, String mucDoDapUngKienThuc,
 			long mucThuNhapTBThang) {
 		super();
 		this.tenCongViec = tenCongViec;
