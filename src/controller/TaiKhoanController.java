@@ -78,11 +78,11 @@ public class TaiKhoanController extends HttpServlet {
 				switch(loaiTaiKhoan) {
 				case "Nhân viên": {
 					response.sendRedirect("truong");
-					break;
+					return;
 				}
 				case "Sinh viên": {
 					response.sendRedirect("sinhVien");
-					break;
+					return;
 				}
 				case "Quản trị": {
 					

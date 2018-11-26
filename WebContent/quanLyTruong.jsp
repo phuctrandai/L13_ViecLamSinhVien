@@ -16,7 +16,7 @@
 </head>
 <body>
 	<%
-		ArrayList<TruongBean> listTruong = (ArrayList<TruongBean>) request.getAttribute("listn");
+		ArrayList<TruongBean> listTruong = (ArrayList<TruongBean>) request.getAttribute("danhSachTruong");
 	%>
 	
 	<jsp:include page="topMenu.jsp"></jsp:include>
@@ -59,6 +59,7 @@
 						<td>Tên trường</td>
 						<td>Địa chỉ</td>
 						<td>SĐT</td>
+						<td>Email</td>
 						<td>Số fax</td>
 						<td>Website</td>
 						<td>Loại hình</td>
@@ -83,20 +84,23 @@
 						<td><%=truong.getLoaihinh()%></td>
 						<td><%=truong.getLoaitruong()%></td>
 						<td><%=truong.getTinhthanhtructhuoc()%></td>
-						<td><p data-placement="top" data-toggle="tooltip"
-								title="Edit">
+						<td>
+							<p data-placement="top" data-toggle="tooltip" title="Edit">
 								<button class="btn btn-primary btn-sm" data-title="Edit"
-									data-toggle="modal" data-target="#chinhSuaModal">
+										data-toggle="modal" data-target="#chinhSuaModal">
 									<i class="material-icons" style="font-size: 18px">border_color</i>
 								</button>
-							</p></td>
-						<td><p data-placement="top" data-toggle="tooltip"
-								title="Delete">
-								<button class="btn btn-danger btn-sm" data-title="Delete"
-									data-toggle="modal" data-target="#delete">
-									<i class="material-icons" style="font-size: 18px">delete</i>
+							</p>
+						</td>
+						<td>
+							<p data-placement="top" data-toggle="tooltip" title="Delete">
+								<button class="btn btn-danger btn-sm xoaTruongBtn" 
+									data-title="<%=truong.getMatruong()%>,<%=truong.getTentruong() %>"
+									data-toggle="modal" data-target="#xoaTruong">
+										<i class="material-icons" style="font-size: 18px">delete</i>
 								</button>
-							</p></td>
+							</p>
+						</td>
 					</tr>
 					<%
 						}
@@ -120,5 +124,45 @@
 		</div>
 	</div>
 	
+	<div class="modal fade" id="xoaTruong" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h4 class="modal-title text-center">Xác nhận xóa</h4>
+				</div>
+				<div class="modal-body">
+					
+					<div class="alert alert-danger">
+						<span class="glyphicon glyphicon-warning-sign"></span>
+						<h6>Mã trường: "<span id="maTruongTB"></span>"</h6>
+						<h6>Tên trường: "<span id="tenTruongTB"></span>"</h6>
+					</div>
+
+				</div>
+				<div class="modal-footer ">
+					<form action="truong" method="post" class="w-100 text-right">
+						<input type="hidden" name="command" value="xoaTruong">
+						<input type="hidden" name="maTruong" id="maTruong"/>
+						
+						<button type="button" class="btn btn-danger w-25" data-dismiss="modal">
+							<span class="glyphicon glyphicon-remove"></span> Hủy
+						</button>
+						
+						<input type="submit" class="btn btn-outline-secondary" value="Xóa">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+	$(document).ready(function(){
+	    $('.xoaTruongBtn').click(function(){
+	        var info = $(this).attr('data-title').split(',');
+	        $('#maTruong').val(info[0]);
+	        $('#maTruongTB').html(info[0]);
+	        $('#tenTruongTB').html(info[1]);	        
+	    });
+	});
+	</script>
 </body>
 </html>

@@ -4,4 +4,23 @@
   <welcome-file-list>
     <welcome-file>taiKhoan</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+  	<servlet-name>SinhVienController</servlet-name>
+  	<servlet-class>controller.SinhVienController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>SinhVienController</servlet-name>
+  	<url-pattern>/sinhVien</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>NganhDaoTaoController</servlet-name>
+  	<servlet-class>controller.NganhDaoTaoController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NganhDaoTaoController</servlet-name>
+  	<url-pattern>/nganhDaoTao</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

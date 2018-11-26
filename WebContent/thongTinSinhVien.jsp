@@ -23,7 +23,8 @@ String hoTen = "", danToc = "", quocTich = "", ngaySinh = "", gioiTinh = "", cMN
 	
 	tenTruong = "", tenNganh = "", thoiGianTotNghiep = "", soQuyetDinhTotNghiep = "", ngayKyQuyetDinhTotNghiep = "", nienKhoa = "",
 	
-	tenCongViec = "", thoiGianBatDauLamViec = "", tenCoQuan = "", diaChiCoQuan = "", loaiHinhCoQuan = "", viTriCongTac = "", 
+	tenCongViec = "", thoiGianBatDauLamViec = "", tenCoQuan = "", diaChiCoQuan = "", loaiHinhCoQuan = "", viTriCongTac = "",
+	
 	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "", mucThuNhapTBThang = "";
 if(sv != null) {
 	// Thong tin dao tao
@@ -72,22 +73,30 @@ if(sv != null) {
 		</form>
 		<h2 class="text-center mb-5">Thông tin sinh viên</h2>
 			<div class="card">
-				<div class="card-header"><h3>Thông tin chung</h3></div>
+				<div class="card-header">
+					<span style="font-size: 1.75rem; font-weight: 500;">Thông tin chung</span>
+					
+					<a href="sinhVien?command=doiMatKhau" class="float-right" title="Đổi mật khẩu">
+						<i class="fa fa-key text-danger" style="font-size:24px"></i>
+					</a>
+					<a href="sinhVien?command=chinhSua" class="float-right mr-5" title="Chỉnh sửa thông tin">
+						<i class="material-icons" style="font-size:24px">border_color</i>
+					</a>
+					
+				</div>
 				<div class="card-body row">
-					<div class="col-5 pl-5">
+					<div class="col-md-5 col-sm-12 pl-md-5">
 						<p><b>Họ tên: </b><%=hoTen %></p>
 						<p><b>Ngày sinh: </b><%=ngaySinh %></p>
 						<p><b>Giới tính: </b><%=gioiTinh %></p>
 					</div>
-					<div class="col-5 pl-3">
+					<div class="col-md-5 col-sm-12">
 						<p><b>Dân tộc: </b><%=danToc %></p>
 						<p><b>Quốc tịch: </b><%=quocTich %></p>
 						<p><b>CMND: </b><%=cMND %></p>
 						<p><b>Nơi cấp CMND: </b><%=noiCapCMND %></p>
 					</div>
-					<div class="col-2 ">
-						<a href="#" class="text-left" title="Chỉnh sửa thông tin"><i class="material-icons" style="font-size:24px">border_color</i></a>
-						<a href="#" class="float-right" title="Đổi mật khẩu"><i class="fa fa-key text-danger" style="font-size:24px"></i></a>
+					<div class="col-md-2 col-sm-12">
 						<img style="height:150px; width: 150px;"
 							src="https://www.svgimages.com/svg-image/s5/man-passportsize-silhouette-icon-256x256.png">
 					</div>
@@ -97,13 +106,13 @@ if(sv != null) {
 			<div class="card">
 				<div class="card-footer"><h3>Thông tin liên hệ</h3></div>
 				<div class="card-body row">
-					<div class="col-5 pl-5">
+					<div class="col-md-5 col-sm-12 pl-md-5">
 						<p><b>Địa chỉ thường trú: </b><%=diaChiThuongTru %></p>
 					</div>
-					<div class="col-3">
+					<div class="col-md-3 col-sm-12">
 						<p><b>Số điện thoại: </b><%=soDienThoai %></p>
 					</div>
-					<div class="col-4">
+					<div class="col-md-4 col-sm-12">
 						<p><b>Địa chỉ email: </b><%=email %></p>
 					</div>
 				</div>
@@ -112,17 +121,17 @@ if(sv != null) {
 			<div class="card">
 				<div class="card-footer"><h3>Thông tin đào tạo</h3></div>
 				<div class="card-body row">
-					<div class="col-5 pl-5">
+					<div class="col-md-5 pl-md-5 col-sm-12">
 						<p><b>Tên trường: </b><%=tenTruong %></p>
 						<p><b>Ngành học: </b><%=tenNganh %></p>
 						<p><b>Niên khóa: </b><%=nienKhoa %></p>
 					</div>
-					<div class="col-5 pl-3">
+					<div class="col-md-5 col-sm-12 pl-md-3">
 						<p><b>Thời gian tốt nghiệp: </b><%=thoiGianTotNghiep %></p>
 						<p><b>Số quyết định tốt nghiệp: </b><%=soQuyetDinhTotNghiep %></p>
 						<p><b>Ngày ký quyết định tốt nghiệp: </b><%=ngayKyQuyetDinhTotNghiep %></p>
 					</div>
-					<div class="col-2" >
+					<div class="col-md-2 col-sm-12" >
 					</div>
 				</div>
 			</div>
@@ -130,14 +139,14 @@ if(sv != null) {
 			<div class="card">
 				<div class="card-footer"><h3>Thông tin việc làm</h3></div>
 				<div class="card-body row">
-					<div class="col-6 pl-5">
+					<div class="col-md-6 col-sm-12 pl-md-5">
 						<p><b>Tên công việc: </b><%=tenCongViec%></p>
 						<p><b>Vị trí công tác: </b><%=viTriCongTac %></p>
 						<p><b>Thời gian bắt đầu làm việc: </b><%=thoiGianBatDauLamViec %></p>
 						<p><b>Mức độ phù hợp chuyên môn: </b><%=mucDoPhuHopChuyenMon %></p>
 						<p><b>Mức độ đáp ứng của kiến thức chuyên môn: </b><%=mucDoDapUngKTCM %></p>
 					</div>
-					<div class="col-6 pl-3">
+					<div class="col-md-6 col-sm-12 pl-md-3">
 						<p><b>Tên cơ quan: </b><%=tenCoQuan %></p>
 						<p><b>Địa chỉ cơ quan: </b><%=diaChiCoQuan %></p>
 						<p><b>Loại hình cơ quan: </b><%=loaiHinhCoQuan %></p>

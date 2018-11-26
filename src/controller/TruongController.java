@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.TruongBean;
 import bo.TruongBo;
 
 /**
@@ -31,7 +34,7 @@ public class TruongController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-				
+						
 		String command = request.getParameter("command");
 		if(command != null) {
 			switch(command) {
@@ -41,12 +44,25 @@ public class TruongController extends HttpServlet {
 			}
 			case "save": {
 				add(request, response);
+				request.getRequestDispatcher("quanLyTruong.jsp").forward(request, response);
+				break;
+			}
+			case "xoaTruong": {
+				xoaTruong(request, response);
+				request.getRequestDispatcher("truong").forward(request, response);
 				break;
 			}
 			default: break;
 			}
 		}
 		else {
+			TruongBo tb = new TruongBo();
+			try {
+				ArrayList<TruongBean> danhSachTruong = tb.GetDanhSach();
+				request.setAttribute("danhSachTruong", danhSachTruong);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
 			request.getRequestDispatcher("quanLyTruong.jsp").forward(request, response);
 		}
 	}
@@ -78,6 +94,16 @@ public class TruongController extends HttpServlet {
 				truong.KhaiBaoTruong(matruong, tentruong, loaihinh, loaitruong, tinhthanhtructhuoc, diachi, sdt, sofax, email, website);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void xoaTruong(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		TruongBo tb = new TruongBo();
+		String maTruong = request.getParameter("maTruong");
+		try {
+			tb.XoaTruong(maTruong);
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 	}

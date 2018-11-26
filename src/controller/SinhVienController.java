@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import bean.SinhVienBean;
 import bean.TaiKhoanBean;
 import bo.SinhVienBo;
+import bo.TruongBo;
 
 /**
  * Servlet implementation class SinhVien
  */
-@WebServlet(name = "SinhVienController", urlPatterns = { "/sinhVien" })
+//@WebServlet(name = "SinhVienController", urlPatterns = { "/sinhVien" })
+//@WebServlet("sinhVien")
 public class SinhVienController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,8 +37,25 @@ public class SinhVienController extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		Object taiKhoan = request.getSession().getAttribute("taiKhoan");
+		String command = request.getParameter("command");
+		
 		if(taiKhoan != null) {
-			xemThongTinSinhVien(request, response);
+			if(command == null) {
+				XemThongTinSinhVien(request, response);
+			}
+			else {
+				switch(command) {
+				case "capNhat": {
+					
+					break;
+				}
+				case "chinhSua": {
+					ChinhSuaThongTinSinhVien(request, response);
+					break;
+				}
+				default: break;
+				}
+			}
 		}
 		else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -50,9 +69,30 @@ public class SinhVienController extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private void xemThongTinSinhVien(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void XemThongTinSinhVien(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int maTaiKhoan = ((TaiKhoanBean) request.getSession().getAttribute("taiKhoan")).getMaTaiKhoan();
 		
+		SinhVienBean sv = GetSinhVienTheoTaiKhoan(maTaiKhoan);
+		request.setAttribute("sinhVien", sv);
+		request.getRequestDispatcher("thongTinSinhVien.jsp").forward(request, response);
+	}
+	
+	private void ChinhSuaThongTinSinhVien(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int maTaiKhoan = ((TaiKhoanBean) request.getSession().getAttribute("taiKhoan")).getMaTaiKhoan();
+		
+		SinhVienBean sv = GetSinhVienTheoTaiKhoan(maTaiKhoan);
+		TruongBo tb = new TruongBo();
+		
+		try {
+			request.setAttribute("danhSachTruong", tb.GetDanhSach());
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("sinhVien", sv);
+		request.getRequestDispatcher("khaiBaoSinhVien.jsp").forward(request, response);
+	}
+	
+	private SinhVienBean GetSinhVienTheoTaiKhoan(int maTaiKhoan) {
 		SinhVienBo svb = new SinhVienBo();
 		SinhVienBean sv = null;
 		try {
@@ -60,8 +100,6 @@ public class SinhVienController extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		request.setAttribute("sinhVien", sv);
-		request.getRequestDispatcher("thongTinSinhVien.jsp").forward(request, response);
+		return sv;
 	}
-
 }
