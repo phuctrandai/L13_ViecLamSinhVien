@@ -10,7 +10,7 @@ public class Connect {
 	public void ketnoi() throws Exception{
 		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		System.out.println("Da xac dinh HQTCSDL");
-		cn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=RUP_ViecLamSinhVien;user=sa; password=0946901161");
+		cn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-CC9PRQL\\\\SQLEXPRESS:1433;databaseName=RUP_ViecLamSinhVien;user=sa; password=321654987123456");
 		System.out.println("Da ket noi");
 	}
 	public ResultSet getbang(String tb) throws Exception {
