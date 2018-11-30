@@ -1,123 +1,109 @@
 package bean;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ThongTinTaiKhoanBean {
-	private int MaTaiKhoan;
-	private String HoVaTen;
-	private Date NgaySinh;
-	private String GioiTinh;
-	private String CMND;
-	private Date NgayCapCMND;
-	private String NoiCap;
-	private String DanToc;
-	private String QuocTich;
-	private String DiaChiThuongTru;
-	private String SoDienThoai;
-	private String Email;
-	private String AnhDaiDien;
-	public ThongTinTaiKhoanBean(int maTaiKhoan, String hoVaTen, Date ngaySinh, String gioiTinh, String cMND,
-			Date ngayCapCMND, String noiCap, String danToc, String quocTich, String diaChiThuongTru, String soDienThoai,
-			String email, String anhDaiDien) {
-		super();
-		MaTaiKhoan = maTaiKhoan;
-		HoVaTen = hoVaTen;
-		NgaySinh = ngaySinh;
-		GioiTinh = gioiTinh;
-		CMND = cMND;
-		NgayCapCMND = ngayCapCMND;
-		NoiCap = noiCap;
-		DanToc = danToc;
-		QuocTich = quocTich;
-		DiaChiThuongTru = diaChiThuongTru;
-		SoDienThoai = soDienThoai;
-		Email = email;
-		AnhDaiDien = anhDaiDien;
-	}
-	public int getMaTaiKhoan() {
-		return MaTaiKhoan;
-	}
-	public void setMaTaiKhoan(int maTaiKhoan) {
-		MaTaiKhoan = maTaiKhoan;
-	}
+
+	private String hoVaTen;
+	private LocalDate ngaySinh;
+	private boolean gioiTinh;
+	private String cMND;
+	private LocalDate ngayCapCMND;
+	private String noiCapCMND;
+	private String danToc;
+	private String quocTich;
+	private String diaChiThuongTru;
+	private String soDienThoai;
+	private String email;
+	private String anhDaiDien;
+	
 	public String getHoVaTen() {
-		return HoVaTen;
+		return hoVaTen;
 	}
 	public void setHoVaTen(String hoVaTen) {
-		HoVaTen = hoVaTen;
+		this.hoVaTen = hoVaTen;
 	}
-	public Date getNgaySinh() {
-		return NgaySinh;
+	public LocalDate getNgaySinh() {
+		return ngaySinh;
 	}
-	public void setNgaySinh(Date ngaySinh) {
-		NgaySinh = ngaySinh;
+	public void setNgaySinh(LocalDate ngaySinh) {
+		this.ngaySinh = ngaySinh;
 	}
-	public String getGioiTinh() {
-		return GioiTinh;
+	public boolean isGioiTinh() {
+		return gioiTinh;
 	}
-	public void setGioiTinh(String gioiTinh) {
-		GioiTinh = gioiTinh;
+	public void setGioiTinh(boolean gioiTinh) {
+		this.gioiTinh = gioiTinh;
 	}
-	public String getCMND() {
-		return CMND;
+	public String getcMND() {
+		return cMND;
 	}
-	public void setCMND(String cMND) {
-		CMND = cMND;
+	public void setcMND(String cMND) {
+		this.cMND = cMND;
 	}
-	public Date getNgayCapCMND() {
-		return NgayCapCMND;
+	public LocalDate getNgayCapCMND() {
+		return ngayCapCMND;
 	}
-	public void setNgayCapCMND(Date ngayCapCMND) {
-		NgayCapCMND = ngayCapCMND;
+	public void setNgayCapCMND(LocalDate ngayCapCMND) {
+		this.ngayCapCMND = ngayCapCMND;
 	}
-	public String getNoiCap() {
-		return NoiCap;
+	public String getNoiCapCMND() {
+		return noiCapCMND;
 	}
-	public void setNoiCap(String noiCap) {
-		NoiCap = noiCap;
+	public void setNoiCapCMND(String noiCapCMND) {
+		this.noiCapCMND = noiCapCMND;
 	}
 	public String getDanToc() {
-		return DanToc;
+		return danToc;
 	}
 	public void setDanToc(String danToc) {
-		DanToc = danToc;
+		this.danToc = danToc;
 	}
 	public String getQuocTich() {
-		return QuocTich;
+		return quocTich;
 	}
 	public void setQuocTich(String quocTich) {
-		QuocTich = quocTich;
+		this.quocTich = quocTich;
 	}
 	public String getDiaChiThuongTru() {
-		return DiaChiThuongTru;
+		return diaChiThuongTru;
 	}
 	public void setDiaChiThuongTru(String diaChiThuongTru) {
-		DiaChiThuongTru = diaChiThuongTru;
+		this.diaChiThuongTru = diaChiThuongTru;
 	}
 	public String getSoDienThoai() {
-		return SoDienThoai;
+		return soDienThoai;
 	}
 	public void setSoDienThoai(String soDienThoai) {
-		SoDienThoai = soDienThoai;
+		this.soDienThoai = soDienThoai;
 	}
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 	public String getAnhDaiDien() {
-		return AnhDaiDien;
+		return anhDaiDien;
 	}
 	public void setAnhDaiDien(String anhDaiDien) {
-		AnhDaiDien = anhDaiDien;
+		this.anhDaiDien = anhDaiDien;
 	}
-	public ThongTinTaiKhoanBean() {
+	public ThongTinTaiKhoanBean(String hoVaTen, LocalDate ngaySinh, boolean gioiTinh, String cMND, LocalDate ngayCapCMND,
+			String noiCapCMND, String danToc, String quocTich, String diaChiThuongTru, String soDienThoai, String email,
+			String anhDaiDien) {
 		super();
-		// TODO Auto-generated constructor stub
+		this.hoVaTen = hoVaTen;
+		this.ngaySinh = ngaySinh;
+		this.gioiTinh = gioiTinh;
+		this.cMND = cMND;
+		this.ngayCapCMND = ngayCapCMND;
+		this.noiCapCMND = noiCapCMND;
+		this.danToc = danToc;
+		this.quocTich = quocTich;
+		this.diaChiThuongTru = diaChiThuongTru;
+		this.soDienThoai = soDienThoai;
+		this.email = email;
+		this.anhDaiDien = anhDaiDien;
 	}
-	
-	
-	
-
 }

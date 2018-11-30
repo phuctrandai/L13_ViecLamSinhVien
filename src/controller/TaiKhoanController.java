@@ -36,17 +36,26 @@ public class TaiKhoanController extends HttpServlet {
 		
 		String command = request.getParameter("command");
 		if(command != null) {
-			switch(command) {
-			case "login": {
+			if(command.equals("login")) {
 				login(request, response);
-				break;
+				return;
 			}
-			default: break;
+			else if(request.getSession().getAttribute("taiKhoan") != null) {
+				switch(command) {
+				case "logout": {
+					request.getSession().removeAttribute("taiKhoan");
+					request.getRequestDispatcher("login.jsp").forward(request, response);
+					return;
+				}
+				case "info": {
+					request.getRequestDispatcher("thongTinTaiKhoan.jsp").forward(request, response);
+					return;
+				}
+				default: break;
+				}
 			}
 		}
-		else {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-		}
+		request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
 
 	/**
@@ -60,19 +69,20 @@ public class TaiKhoanController extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tenTaiKhoan = request.getParameter("tenTaiKhoan");
 		String matKhau = request.getParameter("matKhau");
+		String loaiTaiKhoan = request.getParameter("loaiTaiKhoan");
 		
 		try {
-			TaiKhoanBean taiKhoanBean = taiKhoanBo.getTaiKhoan(tenTaiKhoan, matKhau);
+			TaiKhoanBean taiKhoanBean = taiKhoanBo.getTaiKhoan(tenTaiKhoan, matKhau, loaiTaiKhoan);
 			if(taiKhoanBean != null) {
 				request.getSession().setAttribute("taiKhoan", taiKhoanBean);
-				switch(taiKhoanBean.getLoaiTaiKhoan()) {
+				switch(loaiTaiKhoan) {
 				case "Nhân viên": {
 					response.sendRedirect("truong");
-					break;
+					return;
 				}
 				case "Sinh viên": {
 					response.sendRedirect("sinhVien");
-					break;
+					return;
 				}
 				case "Quản trị": {
 					

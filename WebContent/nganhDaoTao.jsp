@@ -10,14 +10,11 @@
 <title>Quản lí ngành đào tạo</title>
 
 <!-- <link rel="stylesheet" href="css/qltk.css"> -->
-
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-	
-
 </head>
 <body>
 	<%
@@ -124,10 +121,9 @@
 
 	<div class="col-12 mt-5">
 		<div class="table-responsive">
-			<table id="mytable" class="table table-bordred table-striped">
+			<table id="mytable" class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
-						<td><input type="checkbox" id="checkall" /></td>
 						<td>Mã Ngành</td>
 						<td>Tên Ngành</td>
 						<td>Hình thức đào tạo</td>
@@ -143,7 +139,6 @@
 							for (NganhDaoTaoBean nganh : listNganh) {
 					%>
 					<tr>
-						<td><input type="checkbox" class="checkthis" /></td>
 						<td><%=nganh.getMaNganh()%></td>
 						<td><%=nganh.getTenNganh()%></td>
 						<td><%=nganh.getHinhThucDT()%></td>
@@ -151,16 +146,16 @@
 						<td><%=nganh.getTrinhDoDT()%></td>
 						<td><p data-placement="top" data-toggle="tooltip"
 								title="Edit">
-								<button class="btn btn-primary btn-xs" data-title="Edit"
+								<button class="btn btn-primary btn-sm" data-title="Edit"
 									data-toggle="modal" data-target="#chinhSuaModal">
-									<span class="glyphicon glyphicon-pencil"></span>
+									<i class="material-icons" style="font-size: 18px">border_color</i>
 								</button>
 							</p></td>
 						<td><p data-placement="top" data-toggle="tooltip"
 								title="Delete">
-								<button class="btn btn-danger btn-xs" data-title="Delete"
+								<button class="btn btn-danger btn-sm" data-title="Delete"
 									data-toggle="modal" data-target="#delete">
-									<span class="glyphicon glyphicon-trash"></span>
+									<i class="material-icons" style="font-size: 18px">delete</i>
 								</button>
 							</p></td>
 					</tr>
