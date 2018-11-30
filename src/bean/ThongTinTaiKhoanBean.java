@@ -4,10 +4,6 @@ import java.time.LocalDate;
 
 public class ThongTinTaiKhoanBean {
 
-	public ThongTinTaiKhoanBean() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	private String hoVaTen;
 	private LocalDate ngaySinh;
 	private boolean gioiTinh;
