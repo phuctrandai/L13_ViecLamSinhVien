@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.SinhVienBean;
 import bean.TaiKhoanBean;
+import bean.ThongTinViecLamBean;
 import bo.SinhVienBo;
 import bo.TruongBo;
 
@@ -42,23 +45,24 @@ public class SinhVienController extends HttpServlet {
 		if(taiKhoan != null) {
 			if(command == null) {
 				XemThongTinSinhVien(request, response);
+				return;
 			}
 			else {
 				switch(command) {
 				case "capNhat": {
-					
-					break;
+					CapNhatThongTin(request, response);
+					return;
 				}
 				case "chinhSua": {
 					ChinhSuaThongTinSinhVien(request, response);
-					break;
+					return;
 				}
 				default: break;
 				}
 			}
 		}
 		else {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			response.sendRedirect("taiKhoan");
 		}
 	}
 
@@ -101,5 +105,55 @@ public class SinhVienController extends HttpServlet {
 			e.printStackTrace();
 		}
 		return sv;
+	}
+	
+	private void CapNhatThongTin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String tinhTrangViecLam = request.getParameter("tinhTrangViecLam");
+		int maSinhVien = Integer.parseInt(request.getParameter("maSinhVien"));
+		
+		SinhVienBo svb = new SinhVienBo();
+		
+		if(tinhTrangViecLam.equals("dangDiLam")) {
+			String 	tenCongViec = request.getParameter("tenCongViec"),
+					viTriCongTac = request.getParameter("viTriCongTac"),
+					tenCoQuan = request.getParameter("tenCoQuan"),
+					diaChiCoQuan = request.getParameter("diaChiCoQuan"),
+					mucDoPhuHopChuyenMon = request.getParameter("mucDoPhuHopChuyenMon"),
+					mucDoDapUngKTCM = request.getParameter("mucDoDapUngKTCM"),
+					loaiHinhCoQuan = request.getParameter("loaiHinhCoQuan");
+			
+			LocalDate 	thoiGianBatDauLamViec = LocalDate.parse(
+													request.getParameter("thoiGianBatDauLamViec"), 
+													DateTimeFormatter.ofPattern("yyyy-MM-dd")
+												);
+			long mucThuNhapTBThang = Long.parseLong(request.getParameter("mucThuNhapTBThang"));
+			ThongTinViecLamBean thongTin = new ThongTinViecLamBean(
+					tenCongViec, 
+					viTriCongTac, 
+					tenCoQuan, 
+					diaChiCoQuan, 
+					loaiHinhCoQuan, 
+					thoiGianBatDauLamViec, 
+					mucDoPhuHopChuyenMon, 
+					mucDoDapUngKTCM,
+					mucThuNhapTBThang
+			);
+			try {
+				svb.UpdateThongTinViecLam(maSinhVien, thongTin);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(tinhTrangViecLam.equals("dangHocNangCao")) {
+			
+		}
+		else {
+			try {
+				svb.UpdateThongTinViecLam(maSinhVien, true);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

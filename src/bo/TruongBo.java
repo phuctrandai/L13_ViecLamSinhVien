@@ -30,4 +30,9 @@ public class TruongBo {
 	public int XoaTruong(String maTruong) throws ClassNotFoundException, SQLException {
 		return dao.XoaTruong(maTruong);
 	}
+	
+	public TruongBean TimTheoMa(String maTruong)throws Exception {
+		System.out.println("BO..TIM THEO MA");
+		return dao.TimTheoMa(maTruong);
+	}
 }

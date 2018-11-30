@@ -45,11 +45,11 @@ public class TaiKhoanController extends HttpServlet {
 				case "logout": {
 					request.getSession().removeAttribute("taiKhoan");
 					request.getRequestDispatcher("login.jsp").forward(request, response);
-					break;
+					return;
 				}
 				case "info": {
 					request.getRequestDispatcher("thongTinTaiKhoan.jsp").forward(request, response);
-					break;
+					return;
 				}
 				default: break;
 				}

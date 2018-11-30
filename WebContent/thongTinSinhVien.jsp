@@ -1,3 +1,5 @@
+<%@page import="java.util.Locale"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="bean.SinhVienBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -16,6 +18,8 @@
 </head>
 
 <%
+NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vie", "VN"));
+
 SinhVienBean sv = (SinhVienBean) request.getAttribute("sinhVien");
 String hoTen = "", danToc = "", quocTich = "", ngaySinh = "", gioiTinh = "", cMND = "", noiCapCMND = "",
 
@@ -25,7 +29,8 @@ String hoTen = "", danToc = "", quocTich = "", ngaySinh = "", gioiTinh = "", cMN
 	
 	tenCongViec = "", thoiGianBatDauLamViec = "", tenCoQuan = "", diaChiCoQuan = "", loaiHinhCoQuan = "", viTriCongTac = "",
 	
-	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "", mucThuNhapTBThang = "";
+	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "";
+long mucThuNhapTBThang = 0;
 if(sv != null) {
 	// Thong tin dao tao
 	tenTruong = sv.getTenTruong();
@@ -59,7 +64,7 @@ if(sv != null) {
 		viTriCongTac = sv.getThongTinViecLam().getViTriCongTac();
 		mucDoDapUngKTCM = sv.getThongTinViecLam().getMucDoDapUngKienThuc();
 		mucDoPhuHopChuyenMon = sv.getThongTinViecLam().getMucDoPhuHopChuyenMon();
-		mucThuNhapTBThang = String.valueOf(sv.getThongTinViecLam().getMucThuNhapTBThang());
+		mucThuNhapTBThang = sv.getThongTinViecLam().getMucThuNhapTBThang();
 	}
 }
 
@@ -226,7 +231,7 @@ if(sv != null) {
 							</tr>
 							<tr>
 								<td><p><b>Mức thu nhập trung bình tháng: </b></p></td>
-								<td class="pl-4"><p><%=mucThuNhapTBThang %></p></td>
+								<td class="pl-4"><p><%=nf.format(mucThuNhapTBThang) %></p></td>
 							</tr>
 						</table>
 					</div>					

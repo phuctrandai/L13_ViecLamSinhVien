@@ -94,4 +94,25 @@ public class TruongDao {
 		connectDB.Disconnect();
 		return rowEffect;
 	}
+	
+	public TruongBean TimTheoMa(String maTruong)throws Exception {
+			String  sql ="select * from TRUONG where MaTruong=?";
+			CoSo cs = new CoSo();
+			cs.KetNoi();
+			
+			PreparedStatement cmd = cs.cn.prepareStatement(sql);
+			cmd.setString(1, maTruong);
+			ResultSet rs=cmd.executeQuery();
+			if(rs.next()){//duyet qua tap du lieu
+				TruongBean truong = new TruongBean(rs.getString("MaTruong"),rs.getString("TenTruong"),rs.getString("LoaiHinh"),rs.getString("LoaiTruong"),rs.getString("TinhThanhTrucThuoc"),rs.getString("DiaChi"),rs.getString("SoDienThoai"),rs.getString("SoFax"),rs.getString("Email"),rs.getString("Website"));
+				rs.close();//Dong RESULTSET
+				cs.cn.close();//Dong ket noi
+				System.out.println("TIM THEO MA THANH CONG");
+				return truong;
+			}
+			System.out.println("TIM THEO MA THAT BAI");
+			rs.close();//Dong RESULTSET
+			cs.cn.close();//Dong ket noi
+			return null;//tra ve ds
+	}
 }

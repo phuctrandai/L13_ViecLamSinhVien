@@ -17,6 +17,7 @@ public class ThongTinViecLamBean {
 	private String mucDoPhuHopChuyenMon;
 	private String mucDoDapUngKienThuc;
 	private long mucThuNhapTBThang;
+	
 	public String getTenCongViec() {
 		return tenCongViec;
 	}

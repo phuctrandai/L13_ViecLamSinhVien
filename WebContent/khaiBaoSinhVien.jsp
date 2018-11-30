@@ -15,10 +15,8 @@
 	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">	
+	<link rel="stylesheet" href="./Library/custom/css/sinhVien.css">
 </head>
 <%
 DateFormat df = new SimpleDateFormat("dd.MM.yy");
@@ -73,7 +71,7 @@ if(sv != null) {
 %>
 <body>
 	<div class="container mt-5">
-	<form action="sinhVien" method="post">
+	<form action="sinhVien" method="post" onsubmit="return checkNgayThang()">
 		<div class="card">
 			<div class="card-header text-center">
 				<h3>Khai báo thông tin sinh viên</h3>
@@ -84,18 +82,18 @@ if(sv != null) {
 						<h4 class="col-12">Thông tin chung:</h4>
 						<div class="col-md-5 col-sm-12">
 							<div class="form-group">
-								<label for="hoTen">Họ và tên</label>
+								<label for="hoTen">Họ và tên (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="hoTen" id="hoTen" class="form-control" value="<%=hoTen%>">
 							</div>
 							
 							<div class="form-group">
-								<label id="ngaySinh">Ngày sinh</label>
+								<label for="ngaySinh">Ngày sinh (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="date" name="ngaySinh" id="ngaySinh" class="form-control" 
-									value="<%=ngaySinh%>">
+									value="<%=ngaySinh.toString()%>">
 							</div>
 							
 							<div class="form-group">
-								<label id="gioiTinh">Giới tính</label>
+								<label for="gioiTinh">Giới tính</label>
 								<select class="form-control" name="gioiTinh" id="gioiTinh">
 									<option value="1" <%=gioiTinh.equals("Nam") ? "selected" : "" %>>Nam</option>
 									<option value="0" <%=gioiTinh.equals("Nữ") ? "selected" : "" %>>Nữ</option> 
@@ -103,31 +101,38 @@ if(sv != null) {
 							</div>
 							
 							<div class="form-group">
-								<label for="danToc">Dân tộc</label>
+								<label for="danToc">Dân tộc (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="danToc" id="danToc" class="form-control" value="<%=danToc%>">
 							</div>
 						</div>
 						<div class="col-md-4 col-sm-12">
 							<div class="form-group">
-								<label for="quocTich">Quốc tịch</label>
+								<label for="quocTich">Quốc tịch (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="quocTich" id="quocTich" class="form-control" value="<%=quocTich%>">
 							</div>
 							
 							<div class="form-group">
-								<label for="cMND">Số CMND</label>
+								<label for="cMND">Số CMND (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="cMND" id="cMND" class="form-control" value="<%=cMND%>">
 							</div>
 							
 							<div class="form-group">
-								<label for="noiCapCMND">Nơi cấp CMND</label>
+								<label for="noiCapCMND">Nơi cấp CMND (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="noiCapCMND" id="noiCapCMND" class="form-control" value="<%=noiCapCMND%>">
 							</div>
 						</div>
 							
 						<div class="col-md-3 col-sm-12 text-center">
 							<label for="anhDaiDien">Ảnh đại diện</label><br>
-							<img style="height:150px; width: 150px;" src="./image/avatar.png" alt="N/A"><br>
-							<input type="file" name="anhDaiDien" id="anhDaiDien" class="btn p-0 m-0 w-100 mt-3">
+							<div id="image-holder"
+								 style="height:150px; width: 150px; margin: 0px auto;
+								 		background-image: url('./image/avatar.png') ;
+								 		background-size: cover;
+								 		background-position: top;"> </div>
+							<br>
+							<input  type="file" accept="image/*"
+									name="anhDaiDien" id="anhDaiDien" 
+									class="btn p-0 m-0 w-100 mt-3">
 						</div>
 					</div>
 				</div>
@@ -137,21 +142,21 @@ if(sv != null) {
 						<h4 class="col-12">Thông tin liên hệ:</h4>
 						<div class="col-md-5 col-sm-12">
 							<div class="form-group">
-								<label for="diaChi">Địa chỉ thường trú</label>
+								<label for="diaChi">Địa chỉ thường trú (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="diaChi" id="diaChi" class="form-control" value="<%=diaChiThuongTru%>">
 							</div>
 						</div>
 						
 						<div class="col-md-4 col-sm-12">
 							<div class="form-group">
-								<label for="email">Email</label>
-								<input type="text" name="email" id="email" class="form-control" value="<%=email%>">
+								<label for="email">Email (<span class="text-danger"><b>*</b></span>)</label>
+								<input type="email" name="email" id="email" class="form-control" value="<%=email%>">
 							</div>
 						</div>
 						
 						<div class="col-md-3 col-sm-12">
 							<div class="form-group">
-								<label for="soDienThoai">Số điện thoại</label>
+								<label for="soDienThoai">Số điện thoại (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="soDienThoai" id="soDienThoai" class="form-control" value="<%=soDienThoai%>">
 							</div>
 						</div>
@@ -166,7 +171,9 @@ if(sv != null) {
 								<label for="tenTruong">Tên trường</label>
 								<select name="tenTruong" id="tenTruong" class="form-control">
 								<%for(TruongBean tb : danhSachTruong) {%>
-									<option value="<%=tb.getMatruong()%>"><%=tb.getTentruong() %></option>
+									<option value="<%=tb.getMatruong()%>" <%if(tb.getTentruong().equals(sv.getTenTruong())) {%>selected<%}%>>
+										<%=tb.getTentruong() %>
+									</option>
 								<%} %>
 								</select>
 							</div>
@@ -186,24 +193,24 @@ if(sv != null) {
 							</div>
 							
 							<div class="form-group">
-								<label for="nienKhoa">Niên khóa</label>
+								<label for="nienKhoa">Niên khóa (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="nienKhoa" id="nienKhoa" class="form-control" value="<%=nienKhoa%>">
 							</div>
 						</div>
 						
 						<div class="col-md-4 col-sm-12">
 							<div class="form-group">
-								<label for="thoiGianTotNghiep">Thời gian tốt nghiệp</label>
+								<label for="thoiGianTotNghiep">Thời gian tốt nghiệp (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="date" name="thoiGianTotNghiep" id="thoiGianTotNghiep" class="form-control" value="<%=thoiGianTotNghiep%>">
 							</div>
 							
 							<div class="form-group">
-								<label for="soQuyetDinhTotNghiep">Số quyết định tốt nghiệp</label>
+								<label for="soQuyetDinhTotNghiep">Số quyết định tốt nghiệp (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="text" name="soQuyetDinhTotNghiep" id="soQuyetDinhTotNghiep" class="form-control" value="<%=soQuyetDinhTotNghiep%>">
 							</div>
 							
 							<div class="form-group">
-								<label for="ngayKyQuyetDinh">Ngày ký quyết định tốt nghiệp</label>
+								<label for="ngayKyQuyetDinh">Ngày ký quyết định tốt nghiệp (<span class="text-danger"><b>*</b></span>)</label>
 								<input type="date" name="ngayKyQuyetDinh" id="ngayKyQuyetDinh" class="form-control" value="<%=ngayKyQuyetDinhTotNghiep%>">
 							</div>
 						</div>
@@ -217,19 +224,22 @@ if(sv != null) {
 							<div class="form-group col-12 text-center">
 								<div class="form-check-inline col-3">
 									<label class="form-check-label">
-										<input type="radio" class="form-check-input" name="tinhTrangViecLam" value="dangDiLam" id="dangDiLamOption" checked>
+										<input type="radio" class="form-check-input" name="tinhTrangViecLam" 
+											value="dangDiLam" id="dangDiLamOption" checked>
 										Đang đi làm
 									</label>
 								</div>
 								<div class="form-check-inline col-3">
 									<label class="form-check-label">
-									    <input type="radio" class="form-check-input" name="tinhTrangViecLam" value="dangHocNangCao" id="dangHocNangCaoOption">
+									    <input type="radio" class="form-check-input" name="tinhTrangViecLam"
+									    	value="dangHocNangCao" id="dangHocNangCaoOption">
 									    Đang học nâng cao
 								  	</label>
 								</div>
 								<div class="form-check-inline col-3">
 									<label class="form-check-label">
-									    <input type="radio" class="form-check-input" name="tinhTrangViecLam" value="thatNghiep" id="thatNghiepOption">
+									    <input type="radio" class="form-check-input" name="tinhTrangViecLam" 
+									    	value="thatNghiep" id="thatNghiepOption">
 									    Đang không có việc làm
 									</label>
 								</div>
@@ -240,7 +250,7 @@ if(sv != null) {
 							<div id="dangDiLam" class="tab-pane active"><br>
 								<div class="row form-group">
 									<div class="col-md-4 col-sm-12">
-							    		<label for="tenCongViec">Tên công việc:</label>
+							    		<label for="tenCongViec">Tên công việc: (<span class="text-danger"><b>*</b></span>)</label>
 							    	</div>
 							    	<div class="col-md-6 col-sm-12">
 							    		<input type="text" name="tenCongViec" id="tenCongViec" class="form-control" value="<%=tenCongViec%>">
@@ -248,7 +258,7 @@ if(sv != null) {
 								</div>
 						    	<div class="row form-group">
 									<div class="col-md-4 col-sm-12">
-							    		<label for="thoiGianBatDauLamViec">Thời gian bắt đầu làm việc:</label>
+							    		<label for="thoiGianBatDauLamViec">Thời gian bắt đầu làm việc: (<span class="text-danger"><b>*</b></span>)</label>
 							    	</div>
 							    	<div class="col-md-3 col-sm-12">
 							    		<input type="date" name="thoiGianBatDauLamViec" id="thoiGianBatDauLamViec" class="form-control"
@@ -258,10 +268,10 @@ if(sv != null) {
 						    	
 						    	<div class="row form-group">
 									<div class="col-md-4 col-sm-12">
-							    		<label for="viTriCongViec">Vị trí công tác:</label>
+							    		<label for="viTriCongTac">Vị trí công tác:</label>
 							    	</div>
 							    	<div class="col-md-6 col-sm-12">
-							    		<input type="text" name="viTriCongViec" id="viTriCongViec" class="form-control" value="<%=viTriCongTac%>">
+							    		<input type="text" name="viTriCongTac" id="viTriCongTac" class="form-control" value="<%=viTriCongTac%>">
 							    	</div>
 								</div>
 								
@@ -289,9 +299,9 @@ if(sv != null) {
 							    	</div>
 							    	<div class="col-md-3 col-sm-12">
 							    		<select name="mucDoPhuHopChuyenMon" class="form-control">
-							    			<option>Cao</option>
-							    			<option>Trung bình</option>
-							    			<option>Thấp</option>
+							    			<option value="Cao">Cao</option>
+							    			<option value="Trung bình">Trung bình</option>
+							    			<option value="Thấp">Thấp</option>
 							    		</select>
 							    	</div>
 								</div>
@@ -302,9 +312,9 @@ if(sv != null) {
 							    	</div>
 							    	<div class="col-md-3 col-sm-12">
 							    		<select name="mucDoDapUngKTCM" class="form-control">
-							    			<option>Cao</option>
-							    			<option>Trung bình</option>
-							    			<option>Thấp</option>
+							    			<option value="Cao">Cao</option>
+							    			<option value="Trung bình">Trung bình</option>
+							    			<option value="Thấp">Thấp</option>
 							    		</select>
 							    	</div>
 								</div>
@@ -315,19 +325,21 @@ if(sv != null) {
 							    	</div>
 							    	<div class="col-md-3 col-sm-12">
 							    		<select name="loaiHinhCoQuan" class="form-control">
-							    			<option>Cao</option>
-							    			<option>Trung bình</option>
-							    			<option>Thấp</option>
+							    			<option value="Nhà nước">Nhà nước</option>
+							    			<option value="Tư nhân">Tư nhân</option>
+							    			<option value="Liên doanh nước ngoài">Liên doanh nước ngoài</option>
+							    			<option value="Tự lập nghiệp">Tự lập nghiệp</option>
 							    		</select>
 							    	</div>
 								</div>
 								
 								<div class="row form-group">
 									<div class="col-md-4 col-sm-12">
-							    		<label for="mucThuNhapTrungBinh">Mức thu nhập trung bình tháng:</label>
+							    		<label for="mucThuNhapTBThang">Mức thu nhập trung bình tháng:</label>
 							    	</div>
 							    	<div class="col-md-3 col-sm-12">
-							    		<input type="number" name="mucThuNhapTrungBinh" id="mucThuNhapTrungBinh" class="form-control" value="<%=mucThuNhapTBThang%>">
+							    		<input type="number" name="mucThuNhapTBThang" id="mucThuNhapTBThang" class="form-control" 
+							    			value="<%=mucThuNhapTBThang%>">
 							    	</div>
 								</div>
 					    	</div>
@@ -354,7 +366,7 @@ if(sv != null) {
 					   					</div>
 					   					
 					   					<div class="form-group">
-					   						<label for="nienKhoaNangCao">Niên khóa:</label>
+					   						<label for="nienKhoaNangCao">Niên khóa: (<span class="text-danger"><b>*</b></span>)</label>
 					   						<input type="text" name="nienKhoa" id="nienKhoa" class="form-control">
 					   					</div>
 						   			</div>
@@ -389,6 +401,7 @@ if(sv != null) {
 		
 			<div class="card-footer">
 				<div class="form-group text-right">
+					<input type="hidden" name="maSinhVien" value="<%=sv.getMaSinhVien()%>">
 					<input type="hidden" name="command" value="capNhat">
 					<input type="submit" name="capNhat" value="Cập nhật" class="btn btn-success mr-5">
 					<a href="sinhVien" class="btn btn-outline-danger">Hủy</a>
@@ -398,7 +411,31 @@ if(sv != null) {
 	</form>
 	</div>
 	
-	<script src="./Library/custom/js/my-script.js"></script>
+	<div class="modal modal-close" id="thongBaoModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h4 class="modal-title text-center" id="tieuDeThongBao"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-danger">
+						<span class="glyphicon glyphicon-warning-sign" id="noiDungThongBao"></span>
+					</div>
+				</div>
+				<div class="modal-footer ">
+					<button type="button" class="btn btn-danger w-25" id="closeModal">
+						<span class="glyphicon glyphicon-remove"></span> OK
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="./Library/custom/js/sinh-vien-script.js"></script>
 	
 </body>
 </html>
