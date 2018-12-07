@@ -90,7 +90,7 @@ public class SinhVienController extends HttpServlet {
 		SinhVienBean sv = GetSinhVienTheoTaiKhoan(maTaiKhoan);
 		try {
 			int maLoai = sv.getThongTinViecLam() == null ? 0 : sv.getThongTinViecLam().getLoaiHinhCoQuan();
-			request.setAttribute("loaiHinhCoQuan", svb.getTenLoaiHinhCoQuan(maLoai));
+			request.setAttribute("loaiHinhCoQuan", svb.GetTenLoaiHinhCoQuan(maLoai));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,16 @@ public class SinhVienController extends HttpServlet {
 		SinhVienBo svb = new SinhVienBo();
 		
 		try {
-			request.setAttribute("listLoaiHinhCoQuan", svb.getListLoaiHinh());
+			if(sv != null) {
+				String tinhTrangViecLam = svb.GetTinhTrangViecLam(sv.getMaSinhVien());
+				if(tinhTrangViecLam.equals("dangDiLam"))
+					request.setAttribute("thongTinViecLam", svb.GetThongTinViecLam(sv.getMaSinhVien()));
+				else if(tinhTrangViecLam.equals("dangHocNangCao"))
+					request.setAttribute("thongTinDaoTaoNangCao", svb.GetThongTinDaoTaoNangCao(sv.getMaSinhVien()));
+				
+				request.setAttribute("tinhTrangViecLam", tinhTrangViecLam);
+			}
+			request.setAttribute("listLoaiHinhCoQuan", svb.GetListLoaiHinh());
 			request.setAttribute("danhSachTruong", tb.GetDanhSach());
 			request.setAttribute("danhSachNganh", nb.getNganhDT());
 			

@@ -12,7 +12,6 @@ import bean.SinhVienBean;
 import bean.ThongTinTaiKhoanBean;
 import bean.ThongTinViecLamBean;
 
-
 public class SinhVienDao {
 	
 	public ArrayList<SinhVienBean> GetDanhSach() throws Exception {
@@ -68,7 +67,7 @@ public class SinhVienDao {
 		
 		// Thong tin sinh vien ( thong tin dao tao )
 		String query = "SELECT SINHVIEN.MaTaiKhoan, MaSinhVien, NienKhoa, ThoiGianTotNghiep, \r\n" + 
-				"		SoQuyetDinhTotNghiep, NgayKyQuyetDinhTotNghiep, \r\n" + 
+					"	SoQuyetDinhTotNghiep, NgayKyQuyetDinhTotNghiep, \r\n" + 
 				"		TenTruong,TenNganh\r\n" + 
 				"FROM TRUONG RIGHT OUTER JOIN\r\n" + 
 				"     SINHVIEN ON TRUONG.MaTruong = SINHVIEN.MaTruong LEFT OUTER JOIN\r\n" + 
@@ -91,7 +90,7 @@ public class SinhVienDao {
 			TaiKhoanDao taiKhoanDao = new TaiKhoanDao();
 			ThongTinTaiKhoanBean tk = taiKhoanDao.GetThongTin(maTaiKhoan);
 			sv.setThongTinTaiKhoan(tk);
-			sv.setThongTinViecLam(this.GetThongTinViecLam(resultSet.getInt("MaSinhVien")));
+//			sv.setThongTinViecLam(this.GetThongTinViecLam(resultSet.getInt("MaSinhVien")));
 		}
 		resultSet.close();
 		connectDB.Disconnect();
@@ -334,6 +333,7 @@ public class SinhVienDao {
 			daoTao.setMaNganh(rs.getString("MaNganh"));
 			daoTao.setTrinhDoDaoTao(rs.getString("TrinhDoDaoTao"));
 			daoTao.setHinhThucDaoTao(rs.getString("HinhThucDaoTao"));
+			daoTao.setNienKhoa(rs.getString("NienKhoa"));
 		}
 		connectDB.Disconnect();
 		return daoTao;

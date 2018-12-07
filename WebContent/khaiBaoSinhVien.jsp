@@ -1,3 +1,4 @@
+<%@page import="bean.DaoTaoNangCaoBean"%>
 <%@page import="bean.ThongTinViecLamBean"%>
 <%@page import="bean.ThongTinTaiKhoanBean"%>
 <%@page import="bean.LoaiHinhCoQuanBean"%>
@@ -28,6 +29,8 @@ DateFormat df = new SimpleDateFormat("dd.MM.yy");
 ArrayList<TruongBean> danhSachTruong = (ArrayList<TruongBean>) request.getAttribute("danhSachTruong");
 ArrayList<NganhDaoTaoBean> danhSachNganh = (ArrayList<NganhDaoTaoBean>) request.getAttribute("danhSachNganh");
 ArrayList<LoaiHinhCoQuanBean> listLoaiHinhCoQuan = (ArrayList<LoaiHinhCoQuanBean>) request.getAttribute("listLoaiHinhCoQuan");
+String tinhTrangViecLam = (String)	request.getAttribute("tinhTrangViecLam");
+String[] listTrinhDoDaoTao = new String[]{ "Nghiên cứu sinh", "Thạc sĩ", "Tiến sĩ" };
 
 //lay thong tin sinh vien
 SinhVienBean sv = (SinhVienBean) request.getAttribute("sinhVien");
@@ -37,7 +40,8 @@ String hoTen = "", danToc = "", quocTich = "", ngaySinh = "", gioiTinh = "", cMN
 	diaChiThuongTru = "", soDienThoai = "", email = "",
 	tenTruong = "", tenNganh = "", thoiGianTotNghiep = "", soQuyetDinhTotNghiep = "", ngayKyQuyetDinhTotNghiep = "", nienKhoa = "",
 	tenCongViec = "", thoiGianBatDauLamViec = "", tenCoQuan = "", diaChiCoQuan = "", viTriCongTac = "",
-	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "";
+	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "",
+	maTruongNangCao = "", maNganhNangCao = "", trinhDoDaoTao = "", hinhThucDaoTao = "", nienKhoaNangCao = "";
 int loaiHinhCoQuan = 0;
 long mucThuNhapTBThang = 0;
 
@@ -65,8 +69,8 @@ if(sv != null) {
 		gioiTinh = tk.isGioiTinh() ? "Nam" : "Nữ";
 	}
 	
-	if(sv.getThongTinViecLam() != null) {
-		ThongTinViecLamBean vl = sv.getThongTinViecLam();
+	if(tinhTrangViecLam.equals("dangDiLam")) {
+		ThongTinViecLamBean vl = (ThongTinViecLamBean) request.getAttribute("thongTinViecLam");
 		// Thong tin viec lam
 		tenCongViec = vl.getTenCongViec() == null ? "" : vl.getTenCongViec();
 		thoiGianBatDauLamViec = vl.getThoiGianBatDauLamViec() == null ? "" : vl.getThoiGianBatDauLamViec().toString();
@@ -77,6 +81,14 @@ if(sv != null) {
 		mucDoPhuHopChuyenMon = vl.getMucDoPhuHopChuyenMon() == null ? "" : vl.getMucDoPhuHopChuyenMon();
 		mucThuNhapTBThang = vl.getMucThuNhapTBThang();
 		loaiHinhCoQuan = vl.getLoaiHinhCoQuan();
+	}
+	else if(tinhTrangViecLam.equals("dangHocNangCao")) {
+		DaoTaoNangCaoBean dt = (DaoTaoNangCaoBean) request.getAttribute("thongTinDaoTaoNangCao");
+		maTruongNangCao = dt.getMaTruong();
+		maNganhNangCao = dt.getMaNganh();
+		trinhDoDaoTao = dt.getTrinhDoDaoTao();
+		hinhThucDaoTao = dt.getHinhThucDaoTao();
+		nienKhoaNangCao = dt.getNienKhoa();
 	}
 }
 %>
@@ -236,21 +248,24 @@ if(sv != null) {
 								<div class="form-check-inline col-3">
 									<label class="form-check-label">
 										<input type="radio" class="form-check-input" name="tinhTrangViecLam" 
-											value="dangDiLam" id="dangDiLamOption" checked>
+											value="dangDiLam" id="dangDiLamOption"
+											<%if(tinhTrangViecLam.equals("dangDiLam")) {%> checked <%} %> >
 										Đang đi làm
 									</label>
 								</div>
 								<div class="form-check-inline col-3">
 									<label class="form-check-label">
 									    <input type="radio" class="form-check-input" name="tinhTrangViecLam"
-									    	value="dangHocNangCao" id="dangHocNangCaoOption">
+									    	value="dangHocNangCao" id="dangHocNangCaoOption"
+									    	<%if(tinhTrangViecLam.equals("dangHocNangCao")) {%> checked <%} %> >
 									    Đang học nâng cao
 								  	</label>
 								</div>
 								<div class="form-check-inline col-3">
 									<label class="form-check-label">
 									    <input type="radio" class="form-check-input" name="tinhTrangViecLam" 
-									    	value="thatNghiep" id="thatNghiepOption">
+									    	value="thatNghiep" id="thatNghiepOption"
+									    	<%if(tinhTrangViecLam.equals("thatNghiep")) {%> checked <%} %> >
 									    Đang không có việc làm
 									</label>
 								</div>
@@ -258,7 +273,8 @@ if(sv != null) {
 						</div>
 						<hr>
 						<div class="tab-content">
-							<div id="dangDiLam" class="tab-pane active"><br>
+							<div id="dangDiLam" 
+							class="tab-pane <%if(tinhTrangViecLam.equals("dangDiLam")) out.print("active"); else out.print("fade");%>"><br>
 								<div class="row form-group">
 									<div class="col-md-4 col-sm-12">
 							    		<label for="tenCongViec">Tên công việc: (<span class="text-danger"><b>*</b></span>)</label>
@@ -360,14 +376,18 @@ if(sv != null) {
 								</div>
 					    	</div>
 					    	
-						  	<div id="dangHocNangCao" class="tab-pane fade"><br>
+						  	<div id="dangHocNangCao" 
+						  	class="tab-pane <%if(tinhTrangViecLam.equals("dangHocNangCao")) out.print("active"); else out.print("fade");%>"><br>
 						   		<div class="row form-group">
 						   			<div class="col-md-6 col-sm-12">
 					   					<div class="form-group">
 					   						<label for="tenTruongNangCao">Tên trường:</label>
 					   						<select name="tenTruongNangCao" id="tenTruongNangCao" class="form-control">
 								    			<%for(TruongBean tb : danhSachTruong) {%>
-													<option value="<%=tb.getMatruong().trim()%>"><%=tb.getTentruong() %></option>
+													<option value="<%=tb.getMatruong().trim()%>"
+													<%if(tb.getMatruong().equals(maTruongNangCao)){%> selected <%} %>>
+														<%=tb.getTentruong() %>
+													</option>
 												<%} %>
 								    		</select>
 					   					</div>
@@ -376,14 +396,18 @@ if(sv != null) {
 					   						<label for="tenNganhNangCao">Ngành học:</label>
 					   						<select name="tenNganhNangCao" id="tenNganhNangCao" class="form-control">
 								    			<%for(NganhDaoTaoBean ndt : danhSachNganh) {%>
-													<option value="<%=ndt.getMaNganh().trim()%>"><%=ndt.getTenNganh() %></option>
+													<option value="<%=ndt.getMaNganh().trim()%>"
+													<%if(ndt.getMaNganh().equals(maNganhNangCao)){ %> selected <%} %>>
+														<%=ndt.getTenNganh() %>
+													</option>
 												<%} %>
 								    		</select>
 					   					</div>
 					   					
 					   					<div class="form-group">
 					   						<label for="nienKhoaNangCao">Niên khóa: (<span class="text-danger"><b>*</b></span>)</label>
-					   						<input type="text" name="nienKhoaNangCao" id="nienKhoaNangCao" class="form-control">
+					   						<input type="text" name="nienKhoaNangCao" id="nienKhoaNangCao" class="form-control"
+					   						value = "<%=nienKhoaNangCao%>">
 					   					</div>
 						   			</div>
 						   			
@@ -391,9 +415,12 @@ if(sv != null) {
 						   				<div class="form-group">
 					   						<label for="trinhDoDaoTaoNangCao">Trình độ đào tạo:</label>
 					   						<select name="trinhDoDaoTaoNangCao" id="trinhDoDaoTaoNangCao" class="form-control">
-								    			<option value="Nghiên cứu sinh">Nghiên cứu sinh</option>
-								    			<option value="Thạc sĩ">Thạc sĩ</option>
-								    			<option value="Tiến sĩ">Tiến sĩ</option>
+							    			<%for(String td : listTrinhDoDaoTao) {%>
+							    				<option value="<%=td%>"
+							    				<%if(td.equals(trinhDoDaoTao)){ %> selected <%} %>>
+							    					<%=td %>
+						    					</option>
+							    			<%} %>
 								    		</select>
 					   					</div>
 					   					
@@ -407,7 +434,8 @@ if(sv != null) {
 						   			</div>
 						   		</div>
 						  	</div>
-						  	<div id="thatNghiep" class="text-center tab-pane fade"><br>
+						  	<div id="thatNghiep" 
+						  	class="text-center tab-pane <%if(tinhTrangViecLam.equals("thatNghiep")) out.print("active"); else out.print("fade");%>"><br>
 						    	<h3>Cảm ơn bạn đã dành thời gian khai báo!</h3>
 						  	</div>
 						</div>

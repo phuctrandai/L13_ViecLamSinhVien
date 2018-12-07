@@ -26,6 +26,17 @@ public class SinhVienBo {
 		return svd.UpdateThongTinDaoTao(maSinhVien, maTruong, maNganh, nienKhoa, thoiGianTotNghiep, soQuyetDinh, ngayKyQuyetDinh);
 	}
 	
+	public String GetTinhTrangViecLam(int maSinhVien) throws ClassNotFoundException, SQLException {
+		if(svd.GetThongTinViecLam(maSinhVien) != null)
+			return "dangDiLam";
+		else if(svd.GetThongTinDaoTaoNangCao(maSinhVien) != null)
+			return "dangHocNangCao";
+		else
+			return "thatNghiep";
+	}
+	/*
+	 * Thong tin viec lam
+	 */
 	public int UpdateThongTinViecLam(int maSinhVien, ThongTinViecLamBean thongTin) throws ClassNotFoundException, SQLException {
 		return svd.UpdateThongTinViecLam(maSinhVien, thongTin);
 	}
@@ -34,14 +45,21 @@ public class SinhVienBo {
 		return svd.UpdateThongTinViecLam(maSinhVien, isThatNghiep);
 	}
 	
-	public ArrayList<LoaiHinhCoQuanBean> getListLoaiHinh() throws ClassNotFoundException, SQLException {
+	public ThongTinViecLamBean GetThongTinViecLam(int maSinhVien) throws ClassNotFoundException, SQLException {
+		return svd.GetThongTinViecLam(maSinhVien);
+	}
+	
+	public ArrayList<LoaiHinhCoQuanBean> GetListLoaiHinh() throws ClassNotFoundException, SQLException {
 		return svd.getListLoaiHinhCoQuan();
 	}
 	
-	public String getTenLoaiHinhCoQuan(int maLoai) throws ClassNotFoundException, SQLException {
+	public String GetTenLoaiHinhCoQuan(int maLoai) throws ClassNotFoundException, SQLException {
 		return svd.getTenLoaiHinhCoQuan(maLoai);
 	}
 	
+	/*
+	 * Dao tao nang cao
+	 */
 	public int UpdateThongTinDaoTaoNangCao(int maSinhVien, DaoTaoNangCaoBean daoTao) throws ClassNotFoundException, SQLException {
 		int rowEffect = 0;
 		if(svd.GetThongTinDaoTaoNangCao(maSinhVien) == null) {
@@ -51,5 +69,9 @@ public class SinhVienBo {
 			rowEffect = svd.UpdateThongTinDaoTaoNangCao(maSinhVien, daoTao);
 		}
 		return rowEffect;
+	}
+	
+	public DaoTaoNangCaoBean GetThongTinDaoTaoNangCao(int maSinhVien) throws ClassNotFoundException, SQLException {
+		return svd.GetThongTinDaoTaoNangCao(maSinhVien);
 	}
 }
