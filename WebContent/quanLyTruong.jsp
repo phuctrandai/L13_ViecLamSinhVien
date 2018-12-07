@@ -141,7 +141,7 @@
 				</div>
 				<div class="modal-footer ">
 					<form action="truong" method="post" class="w-100 text-right">
-						<input type="hidden" name="command" value="xoaTruong">
+						<input type="hidden" name="command" value="delete">
 						<input type="hidden" name="maTruong" id="maTruong"/>
 						
 						<button type="button" class="btn btn-danger w-25" data-dismiss="modal">

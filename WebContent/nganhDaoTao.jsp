@@ -1,6 +1,5 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="bean.NganhDaoTaoBean"%>
-<%@page import="dao.Connect"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -247,8 +246,6 @@
 			</div>
 		</div>
 	</div>
-
-
 
 	<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 		<div class="modal-dialog">

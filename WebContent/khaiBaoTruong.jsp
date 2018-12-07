@@ -23,7 +23,7 @@
 		</div>
 		<div class="mt-5">
 			<div class="">
-				<form class="row" action="truong" method="post">
+				<form class="row">
 					<input type="hidden" name="command" value="save">
 					<hr>
 					<div class="col-6">
@@ -31,14 +31,14 @@
 							<label for="maTruong">Mã Trường (<span class="text-danger"><b>*</b></span>)</label> 
 							<input
 								type="text" class="form-control" name="txtmatruong"
-								id="maTruong" placeholder="Nhập mã trường..." required>
+								id="maTruong" placeholder="Nhập mã trường...">
 						</div>
 					</div>
 					<div class="col-6">
 						<div class="form-group">
 							<label for="tenTruong">Tên Trường (<span class="text-danger"><b>*</b></span>)</label>
 							<input
-								type="text" class="form-control" name="txttentruong" required="required"
+								type="text" class="form-control" name="txttentruong"
 								id="tenTruong" placeholder="Nhập tên trường...">
 						</div>
 					</div>
@@ -46,7 +46,7 @@
 						<div class="form-group">
 							<label for="diaChi">Địa Chỉ (<span class="text-danger"><b>*</b></span>)</label> 
 							<input
-								type="text" class="form-control" name="txtdiachi" id="diaChi" required="required"
+								type="text" class="form-control" name="txtdiachi" id="diaChi" 
 								placeholder="Nhập địa chỉ...">
 						</div>
 					</div>
@@ -56,8 +56,8 @@
 							<label for="loaiTruong">Loại Trường</label>
 							<select
 								class="form-control" id="loaiTruong" name="txtloaitruong">
-								<option>Đại Học</option>
-								<option>Cao Đẳng</option>
+								<option value="Đại học">Đại Học</option>
+								<option value="Cao đẳng">Cao Đẳng</option>
 							</select>
 
 						</div>
@@ -66,7 +66,7 @@
 						<div class="form-group">
 							<label for="email">Email (<span class="text-danger"><b>*</b></span>)</label> 
 							<input type="text"
-								class="form-control" name="txtemail" id="email" required="required"
+								class="form-control" name="txtemail" id="email" 
 								placeholder="...@gmail.com">
 						</div>
 					</div>
@@ -76,8 +76,8 @@
 							<label for="loaiHinh">Loại Hình</label>
 							<select
 								class="form-control" id="loaiHinh" name="txtloaihinh">
-								<option>Công Lập</option>
-								<option>Dân Lập</option>
+								<option value="Công lập">Công Lập</option>
+								<option value="Dân lập">Dân Lập</option>
 
 							</select>
 						</div>
@@ -87,7 +87,7 @@
 						<div class="form-group">
 							<label for="soDienThoai">Số Điện Thoại (<span class="text-danger"><b>*</b></span>)</label> 
 							<input
-								type="text" id="soDienThoai" name="txtsdt" class="form-control" required="required"
+								type="text" id="soDienThoai" name="txtsdt" class="form-control" 
 								placeholder="Nhập số điện thoại...">
 						</div>
 					</div>
@@ -126,7 +126,7 @@
 							style="float: right;">
 							<i class="glyphicon glyphicon-repeat"></i> Hủy
 						</a>
-						<button class="btn btn-lg btn-success" type="submit" name="save"
+						<button class="btn btn-lg btn-success" type="button" name="save" id="saveBtn"
 							style="float: right; margin-right: 47px; margin-bottom: 61px;">
 							<i class="glyphicon glyphicon-ok-sign"></i> Lưu
 						</button>
@@ -143,5 +143,43 @@
 		</div>
 		<!--/tab-content-->
 	</div>
+	
+	<div class="modal modal-close" id="thongBaoModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<h4 class="modal-title text-center" id="tieuDeThongBao"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-danger" id="alertMode">
+						<span class="glyphicon glyphicon-warning-sign" id="noiDungThongBao"></span>
+					</div>
+				</div>
+				<div class="modal-footer ">
+					<button type="button" class="btn btn-danger w-25" id="closeModal">
+						<span class="glyphicon glyphicon-remove"></span> OK
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="wait" 
+		style="	display: none;
+				background-color: rgba(0,0,0,0.3);
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0; 
+				justify-content: center; align-items: center;">
+		<img src='./image/loading.gif' width="64" height="64" />
+		<br>Loading..
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="./Library/custom/js/khai-bao-truong.js"></script>
 </body>
 </html>

@@ -1,3 +1,5 @@
+<%@page import="bean.ThongTinViecLamBean"%>
+<%@page import="bean.ThongTinTaiKhoanBean"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="bean.SinhVienBean"%>
@@ -18,53 +20,55 @@
 </head>
 
 <%
+// dinh dang tien
 NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vie", "VN"));
-
+// lay thong tin sinh vien
 SinhVienBean sv = (SinhVienBean) request.getAttribute("sinhVien");
-String hoTen = "", danToc = "", quocTich = "", ngaySinh = "", gioiTinh = "", cMND = "", noiCapCMND = "",
 
+// khoi tao gia tri mac dinh
+String hoTen = "", danToc = "", quocTich = "", ngaySinh = "", gioiTinh = "", cMND = "", noiCapCMND = "",
 	diaChiThuongTru = "", soDienThoai = "", email = "",
-	
 	tenTruong = "", tenNganh = "", thoiGianTotNghiep = "", soQuyetDinhTotNghiep = "", ngayKyQuyetDinhTotNghiep = "", nienKhoa = "",
-	
-	tenCongViec = "", thoiGianBatDauLamViec = "", tenCoQuan = "", diaChiCoQuan = "", loaiHinhCoQuan = "", viTriCongTac = "",
-	
-	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "";
+	tenCongViec = "", thoiGianBatDauLamViec = "", tenCoQuan = "", diaChiCoQuan = "", viTriCongTac = "",
+	mucDoPhuHopChuyenMon = "", mucDoDapUngKTCM = "", loaiHinhCoQuan = "";
 long mucThuNhapTBThang = 0;
+
 if(sv != null) {
 	// Thong tin dao tao
-	tenTruong = sv.getTenTruong();
-	tenNganh = sv.getTenNganh();
-	nienKhoa = sv.getNienKhoa();
-	thoiGianTotNghiep = sv.getThoiGianTotNghiep().toString();
-	soQuyetDinhTotNghiep = sv.getSoQuyetDinhTotNghiep();
-	ngayKyQuyetDinhTotNghiep = sv.getNgayKyQuyetDinhTotNghiep().toString();
+	tenTruong = sv.getTenTruong() == null ? "" : sv.getTenTruong();
+	tenNganh = sv.getTenNganh() == null ? "" : sv.getTenNganh();
+	nienKhoa = sv.getNienKhoa() == null ? "" : sv.getNienKhoa();
+	thoiGianTotNghiep = sv.getThoiGianTotNghiep() == null ? "" : sv.getThoiGianTotNghiep().toString();
+	soQuyetDinhTotNghiep = sv.getSoQuyetDinhTotNghiep() == null ? "" : sv.getSoQuyetDinhTotNghiep();
+	ngayKyQuyetDinhTotNghiep = sv.getNgayKyQuyetDinhTotNghiep() == null ? "" : sv.getNgayKyQuyetDinhTotNghiep().toString();
 	
 	if(sv.getThongTinTaiKhoan() != null) {
+		ThongTinTaiKhoanBean tk = sv.getThongTinTaiKhoan();
 		// Thong tin tai khoan
-		hoTen = sv.getThongTinTaiKhoan().getHoVaTen();
-		danToc = sv.getThongTinTaiKhoan().getDanToc();
-		quocTich = sv.getThongTinTaiKhoan().getQuocTich();
-		cMND = sv.getThongTinTaiKhoan().getcMND();
-		noiCapCMND = sv.getThongTinTaiKhoan().getNoiCapCMND();
-		diaChiThuongTru = sv.getThongTinTaiKhoan().getDiaChiThuongTru();
-		soDienThoai = sv.getThongTinTaiKhoan().getSoDienThoai();
-		email = sv.getThongTinTaiKhoan().getEmail();
-		ngaySinh = sv.getThongTinTaiKhoan().getNgaySinh().toString();
-		gioiTinh = sv.getThongTinTaiKhoan().isGioiTinh() ? "Nam" : "Nữ";
+		hoTen = tk.getHoVaTen() == null ? "" : tk.getHoVaTen();
+		danToc = tk.getDanToc() ==  null ? "" : tk.getDanToc();
+		quocTich = tk.getQuocTich() == null ? "" : tk.getQuocTich();
+		cMND = tk.getcMND() == null ? "" : tk.getcMND();
+		noiCapCMND = tk.getNoiCapCMND() == null ? "" : tk.getNoiCapCMND();
+		diaChiThuongTru = tk.getDiaChiThuongTru() == null ? "" : tk.getDiaChiThuongTru();
+		soDienThoai = tk.getSoDienThoai() == null ? "" : tk.getSoDienThoai();
+		email = tk.getEmail() == null ? "" : tk.getEmail();
+		ngaySinh = tk.getNgaySinh() == null ? "" : tk.getNgaySinh().toString();
+		gioiTinh = tk.isGioiTinh() ? "Nam" : "Nữ";
 	}
 	
 	if(sv.getThongTinViecLam() != null) {
+		ThongTinViecLamBean vl = sv.getThongTinViecLam();
 		// Thong tin viec lam
-		tenCongViec = sv.getThongTinViecLam().getTenCongViec();
-		thoiGianBatDauLamViec = sv.getThongTinViecLam().getThoiGianBatDauLamViec().toString();
-		tenCoQuan = sv.getThongTinViecLam().getTenCoQuan();
-		diaChiCoQuan = sv.getThongTinViecLam().getDiaChiCoQuan();
-		loaiHinhCoQuan = sv.getThongTinViecLam().getLoaiHinhCoQuan();
-		viTriCongTac = sv.getThongTinViecLam().getViTriCongTac();
-		mucDoDapUngKTCM = sv.getThongTinViecLam().getMucDoDapUngKienThuc();
-		mucDoPhuHopChuyenMon = sv.getThongTinViecLam().getMucDoPhuHopChuyenMon();
-		mucThuNhapTBThang = sv.getThongTinViecLam().getMucThuNhapTBThang();
+		tenCongViec = vl.getTenCongViec() == null ? "" : vl.getTenCongViec();
+		thoiGianBatDauLamViec = vl.getThoiGianBatDauLamViec() == null ? "" : vl.getThoiGianBatDauLamViec().toString();
+		tenCoQuan = vl.getTenCoQuan() == null ? "" : vl.getTenCoQuan();
+		diaChiCoQuan = vl.getDiaChiCoQuan() == null ? "" : vl.getDiaChiCoQuan();
+		viTriCongTac = vl.getViTriCongTac() == null ? "" : vl.getViTriCongTac();
+		mucDoDapUngKTCM = vl.getMucDoDapUngKienThuc() == null ? "" : vl.getMucDoDapUngKienThuc();
+		mucDoPhuHopChuyenMon = vl.getMucDoPhuHopChuyenMon() == null ? "" : vl.getMucDoPhuHopChuyenMon();
+		mucThuNhapTBThang = vl.getMucThuNhapTBThang();
+		loaiHinhCoQuan = request.getAttribute("loaiHinhCoQuan") == null ? "" : request.getAttribute("loaiHinhCoQuan").toString();
 	}
 }
 

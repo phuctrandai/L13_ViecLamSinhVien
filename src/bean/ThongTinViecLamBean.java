@@ -12,7 +12,7 @@ public class ThongTinViecLamBean {
 	private String viTriCongTac;
 	private String tenCoQuan;
 	private String diaChiCoQuan;
-	private String loaiHinhCoQuan;
+	private int loaiHinhCoQuan;
 	private LocalDate thoiGianBatDauLamViec;
 	private String mucDoPhuHopChuyenMon;
 	private String mucDoDapUngKienThuc;
@@ -42,10 +42,10 @@ public class ThongTinViecLamBean {
 	public void setDiaChiCoQuan(String diaChiCoQuan) {
 		this.diaChiCoQuan = diaChiCoQuan;
 	}
-	public String getLoaiHinhCoQuan() {
+	public int getLoaiHinhCoQuan() {
 		return loaiHinhCoQuan;
 	}
-	public void setLoaiHinhCoQuan(String loaiHinhCoQuan) {
+	public void setLoaiHinhCoQuan(int loaiHinhCoQuan) {
 		this.loaiHinhCoQuan = loaiHinhCoQuan;
 	}
 	public LocalDate getThoiGianBatDauLamViec() {
@@ -73,7 +73,7 @@ public class ThongTinViecLamBean {
 		this.mucThuNhapTBThang = mucThuNhapTBThang;
 	}
 	public ThongTinViecLamBean(String tenCongViec, String viTriCongTac, String tenCoQuan, String diaChiCoQuan,
-			String loaiHinhCoQuan, LocalDate thoiGianBatDauLamViec, String mucDoPhuHopChuyenMon, String mucDoDapUngKienThuc,
+			int loaiHinhCoQuan, LocalDate thoiGianBatDauLamViec, String mucDoPhuHopChuyenMon, String mucDoDapUngKienThuc,
 			long mucThuNhapTBThang) {
 		super();
 		this.tenCongViec = tenCongViec;

@@ -5,7 +5,7 @@ public class TaiKhoanBean {
 	private int maTaiKhoan;
 	private String tenTaiKhoan;
 	private String matKhau;
-	private String loaiTaiKhoan;
+	private int maLoai;
 	
 	public int getMaTaiKhoan() {
 		return maTaiKhoan;
@@ -31,22 +31,22 @@ public class TaiKhoanBean {
 		this.matKhau = matKhau;
 	}
 
-	public String getLoaiTaiKhoan() {
-		return loaiTaiKhoan;
+	public int getLoaiTaiKhoan() {
+		return maLoai;
 	}
 
-	public void setLoaiTaiKhoan(String loaiTaiKhoan) {
-		this.loaiTaiKhoan = loaiTaiKhoan;
+	public void setLoaiTaiKhoan(int maLoai) {
+		this.maLoai = maLoai;
 	}
 
 	public TaiKhoanBean() {		
 	}
 
-	public TaiKhoanBean(int maTaiKhoan, String tenTaiKhoan, String matKhau, String loaiTaiKhoan) {
+	public TaiKhoanBean(int maTaiKhoan, String tenTaiKhoan, String matKhau, int maLoai) {
 		super();
 		this.maTaiKhoan = maTaiKhoan;
 		this.tenTaiKhoan = tenTaiKhoan;
 		this.matKhau = matKhau;
-		this.loaiTaiKhoan = loaiTaiKhoan;
+		this.maLoai = maLoai;
 	}
 }

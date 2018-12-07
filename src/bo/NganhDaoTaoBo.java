@@ -6,10 +6,21 @@ import bean.NganhDaoTaoBean;
 import dao.NganhDaoTaoDao;
 
 public class NganhDaoTaoBo {
+	
+	public NganhDaoTaoBo() {
+		 nganhDao = new NganhDaoTaoDao();
+	}
+	
 	public ArrayList<NganhDaoTaoBean> listNganh;
-	NganhDaoTaoDao nganh= new NganhDaoTaoDao();
+	NganhDaoTaoDao nganhDao;
+	
 	public ArrayList<NganhDaoTaoBean> getNganhDT(String matruong) throws Exception{
-		listNganh= nganh.getNganhDT(matruong);
+		listNganh= nganhDao.getNganhDT(matruong);
+		return listNganh;
+	}
+	
+	public ArrayList<NganhDaoTaoBean> getNganhDT() throws Exception{
+		listNganh= nganhDao.getNganhDT();
 		return listNganh;
 	}
 }

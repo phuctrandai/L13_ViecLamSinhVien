@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,23 +11,15 @@ public class TruongDao {
 	public int KhaiBaoTruong(String matruong, String tentruong, String loaihinh, String loaitruong,
 			String tinhthanhtructhuoc, String diachi, String sdt, String sofax, String email, String website)
 			throws Exception {
-		String sql = "insert into TRUONG(matruong,tentruong,loaihinh,loaitruong,tinhthanhtructhuoc, diachi,SoDienThoai,sofax,email,website) values(?,?,?,?,?,?,?,?,?,?)";
-		CoSo cs = new CoSo();
-		cs.KetNoi();
-		PreparedStatement cmd = cs.cn.prepareStatement(sql);
-		cmd.setString(1, matruong);
-		cmd.setString(2, tentruong);
-		cmd.setString(3, loaihinh);
-		cmd.setString(4, loaitruong);
-		cmd.setString(5, tinhthanhtructhuoc);
-		cmd.setString(6, diachi);
-		cmd.setString(7, sdt);
-		cmd.setString(8, sofax);
-		cmd.setString(9, email);
-		cmd.setString(10, website);
-
-		int kq = cmd.executeUpdate();
-		cs.cn.close();
+		String sql = "insert into TRUONG(matruong,tentruong,loaihinh,loaitruong,tinhthanhtructhuoc, diachi,SoDienThoai,sofax,email,website)"
+				+ " values(?,?,?,?,?,?,?,?,?,?)";
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		int kq = connectDB.executeUpdate(sql, new Object[] {
+				matruong, tentruong, loaihinh, loaitruong, tinhthanhtructhuoc
+				, diachi, sdt, sofax, email, website
+		});
+		connectDB.Disconnect();
 		return kq;
 
 	}
@@ -36,36 +27,29 @@ public class TruongDao {
 	public int ChinhSuaTruong(String matruong, String tentruong, String loaihinh, String loaitruong,
 			String tinhthanhtructhuoc, String diachi, String sdt, String sofax, String email, String website)
 			throws Exception {
-		String sql = "update TRUONG set TenTruong=?,LoaiHinh=?,LoaiTruong=?,TinhThanhTrucThuoc=?,DiaChi=?,SoDienThoai=?,SoFax=?,Email=?,Website=? where MaTruong=?";
-		CoSo cs = new CoSo();
-		cs.KetNoi();
-		PreparedStatement cmd = cs.cn.prepareStatement(sql);
-		cmd.setString(10, matruong);
-		cmd.setString(1, tentruong);
-		cmd.setString(2, loaihinh);
-		cmd.setString(3, loaitruong);
-		cmd.setString(4, tinhthanhtructhuoc);
-		cmd.setString(5, diachi);
-		cmd.setString(6, sdt);
-		cmd.setString(7, sofax);
-		cmd.setString(8, email);
-		cmd.setString(9, website);
-
-		int kq = cmd.executeUpdate();
-		cs.cn.close();
-		System.out.println("CHINH SUA Thnah Cong");
-		return kq;
-	}
-	
-	public ArrayList<TruongBean> GetDanhSach() throws ClassNotFoundException, SQLException {
-		ArrayList<TruongBean> list = new ArrayList<>();
-		
-		String query = "SELECT * FROM TRUONG";
+		String sql = "update TRUONG set TenTruong=?,LoaiHinh=?,LoaiTruong=?,"
+				+ "TinhThanhTrucThuoc=?,DiaChi=?,SoDienThoai=?,SoFax=?,Email=?,Website=? "
+				+ "where MaTruong=?";
 		ConnectDB connectDB = new ConnectDB();
 		connectDB.Connect();
 		
+		int kq = connectDB.executeUpdate(sql, new Object[] {
+					tentruong, loaihinh, loaitruong, tinhthanhtructhuoc
+				, diachi, sdt, sofax, email, website, matruong
+		});
+		connectDB.Disconnect();
+		return kq;
+	}
+
+	public ArrayList<TruongBean> GetDanhSach() throws ClassNotFoundException, SQLException {
+		ArrayList<TruongBean> list = new ArrayList<>();
+
+		String query = "SELECT * FROM TRUONG";
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+
 		ResultSet resultSet = connectDB.executeQuery(query, null);
-		while(resultSet.next()) {
+		while (resultSet.next()) {
 			TruongBean truong = new TruongBean();
 			truong.setMatruong(resultSet.getString("MaTruong"));
 			truong.setTentruong(resultSet.getString("TenTruong"));
@@ -83,36 +67,36 @@ public class TruongDao {
 		connectDB.Disconnect();
 		return list;
 	}
-	
+
 	public int XoaTruong(String maTruong) throws ClassNotFoundException, SQLException {
-		String query = "DELETE FROM TRUONG WHERE MaTruong = ?";
 		ConnectDB connectDB = new ConnectDB();
 		connectDB.Connect();
-		
+
+		String query = "DELETE FROM TRUONG_NGANH WHERE MaTruong = ?";
+		connectDB.executeUpdate(query, new Object[] { maTruong });
+
+		query = "DELETE FROM TRUONG WHERE MaTruong = ?";
 		int rowEffect = connectDB.executeUpdate(query, new Object[] { maTruong });
-		
+
 		connectDB.Disconnect();
 		return rowEffect;
 	}
-	
-	public TruongBean TimTheoMa(String maTruong)throws Exception {
-			String  sql ="select * from TRUONG where MaTruong=?";
-			CoSo cs = new CoSo();
-			cs.KetNoi();
-			
-			PreparedStatement cmd = cs.cn.prepareStatement(sql);
-			cmd.setString(1, maTruong);
-			ResultSet rs=cmd.executeQuery();
-			if(rs.next()){//duyet qua tap du lieu
-				TruongBean truong = new TruongBean(rs.getString("MaTruong"),rs.getString("TenTruong"),rs.getString("LoaiHinh"),rs.getString("LoaiTruong"),rs.getString("TinhThanhTrucThuoc"),rs.getString("DiaChi"),rs.getString("SoDienThoai"),rs.getString("SoFax"),rs.getString("Email"),rs.getString("Website"));
-				rs.close();//Dong RESULTSET
-				cs.cn.close();//Dong ket noi
-				System.out.println("TIM THEO MA THANH CONG");
-				return truong;
-			}
-			System.out.println("TIM THEO MA THAT BAI");
-			rs.close();//Dong RESULTSET
-			cs.cn.close();//Dong ket noi
-			return null;//tra ve ds
+
+	public TruongBean TimTheoMa(String maTruong) throws Exception {
+		String sql = "select * from TRUONG where MaTruong = ? ";
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+
+		ResultSet rs = connectDB.executeQuery(sql, new Object[] { maTruong });
+		TruongBean truong = null;
+		if (rs.next()) {// duyet qua tap du lieu
+			 truong = new TruongBean(rs.getString("MaTruong"), rs.getString("TenTruong"),
+					rs.getString("LoaiHinh"), rs.getString("LoaiTruong"), rs.getString("TinhThanhTrucThuoc"),
+					rs.getString("DiaChi"), rs.getString("SoDienThoai"), rs.getString("SoFax"), rs.getString("Email"),
+					rs.getString("Website"));
+		}
+		rs.close();// Dong RESULTSET
+		connectDB.Disconnect();// Dong RESULTSET
+		return truong;// tra ve ds
 	}
 }

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.LoaiTaiKhoanBean;
 import bean.TaiKhoanBean;
 import bo.TaiKhoanBo;
 
@@ -34,6 +36,13 @@ public class TaiKhoanController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		
+		try {
+			ArrayList<LoaiTaiKhoanBean> listLoai = taiKhoanBo.getListLoai();
+			request.setAttribute("listLoai", listLoai);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
 		String command = request.getParameter("command");
 		if(command != null) {
 			if(command.equals("login")) {
@@ -54,7 +63,7 @@ public class TaiKhoanController extends HttpServlet {
 				default: break;
 				}
 			}
-		}
+		}		
 		request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
 
@@ -69,22 +78,22 @@ public class TaiKhoanController extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tenTaiKhoan = request.getParameter("tenTaiKhoan");
 		String matKhau = request.getParameter("matKhau");
-		String loaiTaiKhoan = request.getParameter("loaiTaiKhoan");
-		
+		int maLoai = Integer.parseInt(request.getParameter("maLoai"));
+				
 		try {
-			TaiKhoanBean taiKhoanBean = taiKhoanBo.getTaiKhoan(tenTaiKhoan, matKhau, loaiTaiKhoan);
+			TaiKhoanBean taiKhoanBean = taiKhoanBo.getTaiKhoan(tenTaiKhoan, matKhau, maLoai);
 			if(taiKhoanBean != null) {
 				request.getSession().setAttribute("taiKhoan", taiKhoanBean);
-				switch(loaiTaiKhoan) {
-				case "Nhân viên": {
+				switch(maLoai) {
+				case 1: {
 					response.sendRedirect("truong");
 					return;
 				}
-				case "Sinh viên": {
+				case 2: {
 					response.sendRedirect("sinhVien");
 					return;
 				}
-				case "Quản trị": {
+				case 3: {
 					
 					break;
 				}

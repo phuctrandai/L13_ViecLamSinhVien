@@ -106,4 +106,7 @@ public class ThongTinTaiKhoanBean {
 		this.email = email;
 		this.anhDaiDien = anhDaiDien;
 	}
+	public ThongTinTaiKhoanBean() {
+		
+	}
 }

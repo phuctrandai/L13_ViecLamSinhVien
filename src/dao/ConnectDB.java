@@ -12,7 +12,7 @@ public class ConnectDB {
 
 	public void Connect() throws ClassNotFoundException, SQLException {
 		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		connection = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-CC9PRQL\\\\SQLEXPRESS:1433;databaseName=RUP_ViecLamSinhVien;user=sa; password=321654987123456");
+		connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=RUP_ViecLamSinhVien;user=sa; password=0946901161");
 	}
 
 	public void Disconnect() throws SQLException {

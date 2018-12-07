@@ -34,28 +34,42 @@ public class TruongController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-						
+		
+		Object taiKhoan = request.getSession().getAttribute("taiKhoan");
 		String command = request.getParameter("command");
-		if(command != null) {
-			switch(command) {
-			case "add": {
-				request.getRequestDispatcher("khaiBaoTruong.jsp").forward(request, response);
-				break;
-			}
-			case "save": {
-				add(request, response);
-				request.getRequestDispatcher("quanLyTruong.jsp").forward(request, response);
-				break;
-			}
-			case "xoaTruong": {
-				xoaTruong(request, response);
-				request.getRequestDispatcher("truong").forward(request, response);
-				break;
-			}
-			default: break;
-			}
+		
+		if(taiKhoan == null) {
+			response.sendRedirect("taiKhoan");
 		}
 		else {
+			if(command != null) {
+				switch(command) {
+				case "checkMaTruong": {
+					// dung ajax
+					try {
+						checkMaTruong(request, response);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+				case "add": {
+					request.getRequestDispatcher("khaiBaoTruong.jsp").forward(request, response);
+					return;
+				}
+				case "save": {
+					// co su dung ajax
+					save(request, response);
+					return;
+				}
+				case "delete": {
+					xoaTruong(request, response);
+					break;
+				}
+				default: break;
+				}
+			}
+			
 			TruongBo tb = new TruongBo();
 			try {
 				ArrayList<TruongBean> danhSachTruong = tb.GetDanhSach();
@@ -74,25 +88,33 @@ public class TruongController extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void checkMaTruong(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String maTruong = request.getParameter("matruong");
+		TruongBo tb = new TruongBo();
+		TruongBean truong = tb.TimTheoMa(maTruong);
+		if(truong == null) {
+			response.getWriter().print("0");
+		} else {
+			response.getWriter().print("1");
+		}
+	}
+	
+	private void save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TruongBo truong = new TruongBo();
 		try {
-			String matruong = request.getParameter("txtmatruong");
-			String tentruong = request.getParameter("txttentruong");
-			String diachi = request.getParameter("txtdiachi");
-			String loaitruong = request.getParameter("txtloaitruong");
-			String email = request.getParameter("txtemail");
-			String loaihinh = request.getParameter("txtloaihinh");
-			String sdt = request.getParameter("txtsdt");
-			String sofax = request.getParameter("txtsofax");
-			String tinhthanhtructhuoc = request.getParameter("txttinhthanhtructhuoc");
-			String website = request.getParameter("txtwebsite");
+			String matruong = request.getParameter("matruong");
+			String tentruong = request.getParameter("tentruong");
+			String diachi = request.getParameter("diachi");
+			String loaitruong = request.getParameter("loaitruong");
+			String email = request.getParameter("email");
+			String loaihinh = request.getParameter("loaihinh");
+			String sdt = request.getParameter("sdt");
+			String sofax = request.getParameter("sofax");
+			String tinhthanhtructhuoc = request.getParameter("tinhthanhtructhuoc");
+			String website = request.getParameter("website");
 			
-			if(request.getParameter("save") !=null)
-			{
-				System.out.println("Them thanh cong ");
-				truong.KhaiBaoTruong(matruong, tentruong, loaihinh, loaitruong, tinhthanhtructhuoc, diachi, sdt, sofax, email, website);
-			}
+			truong.KhaiBaoTruong(matruong, tentruong, loaihinh, loaitruong, tinhthanhtructhuoc, diachi, sdt, sofax, email, website);
+			response.getWriter().print("1");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

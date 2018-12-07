@@ -1,3 +1,5 @@
+<%@page import="bean.LoaiTaiKhoanBean"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,6 +15,11 @@
 boolean loginFail = false;
 if(request.getAttribute("loginFail") != null)
 	loginFail = (boolean) request.getAttribute("loginFail");
+
+ArrayList<LoaiTaiKhoanBean> listLoai = null;
+if(request.getAttribute("listLoai") != null) {
+	listLoai = (ArrayList<LoaiTaiKhoanBean>) request.getAttribute("listLoai");
+}
 %>
 	<div class="container text-center">
 		<h1 class="text-light mt-3">Đăng nhập</h1>
@@ -38,10 +45,10 @@ if(request.getAttribute("loginFail") != null)
 				
 				<div class="form-group">
 					<label>Vai trò</label>
-					<select name="loaiTaiKhoan" class="form-control">
-						<option value="Sinh viên">Sinh viên</option>
-						<option value="Nhân viên">Nhân viên</option>
-						<option value="Quản trị">Quản trị</option>
+					<select name="maLoai" class="form-control">
+						<%for(int i=0 ; i < listLoai.size() ; i++) { %>
+							<option value="<%=listLoai.get(i).getMaLoai()%>"><%=listLoai.get(i).getTenLoai() %></option>
+						<%}%>
 					</select>
 				</div>
 				

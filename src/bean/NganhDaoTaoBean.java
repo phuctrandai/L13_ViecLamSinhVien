@@ -45,7 +45,6 @@ public class NganhDaoTaoBean {
 	}
 	public NganhDaoTaoBean() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public NganhDaoTaoBean(String maNganh, String tenNganh, String maTruong, String trinhDoDT, String heDT,
 			String hinhThucDT) {
@@ -57,6 +56,10 @@ public class NganhDaoTaoBean {
 		HeDT = heDT;
 		HinhThucDT = hinhThucDT;
 	}
+	public NganhDaoTaoBean(String maNganh, String tenNganh) {
+		super();
+		MaNganh = maNganh;
+		TenNganh = tenNganh;
+	}
 	
-
 }

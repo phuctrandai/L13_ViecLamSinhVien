@@ -1,4 +1,4 @@
-<%@page import="bean.QLTaiKhoanBean"%>
+
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -97,12 +97,12 @@
 		</thead>
 		<tbody>
 		<%
-			ArrayList<QLTaiKhoanBean> ds =(ArrayList<QLTaiKhoanBean>)request.getAttribute("dstk");
-				 	for(QLTaiKhoanBean h:ds){
+// 			ArrayList<QLTaiKhoanBean> ds =(ArrayList<QLTaiKhoanBean>)request.getAttribute("dstk");
+// 				 	for(QLTaiKhoanBean h:ds){
 		%>
 			<tr>
 			
-				<td><%=h.getMaTaiKhoan() %></td>
+				<td><%//h.getMaTaiKhoan() %></td>
 				<td>Defaultson</td>
 				<td>def@somemail.com</td>
 				<td>Default</td>
@@ -113,7 +113,7 @@
 				<listyle="margin-left: 10px;"><span style="color: red;" class="glyphicon glyphicon-trash"></span></p>  </li></ul></td>
 				
 			</tr>   
-			<% } %>   
+			<% //} %>   
 			
 
 		</tbody>

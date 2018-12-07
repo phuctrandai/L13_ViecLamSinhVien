@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class NganhDaoTaoController
  */
-//@WebServlet(name = "NganhDaoTaoController", urlPatterns = { "/nganhDaoTao" })
+@WebServlet(name = "NganhDaoTaoController", urlPatterns = { "/nganhDaoTao" })
 //@WebServlet("nganhDaoTao")
 public class NganhDaoTaoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

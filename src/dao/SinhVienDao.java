@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Formatter;
 
+import bean.DaoTaoNangCaoBean;
+import bean.LoaiHinhCoQuanBean;
 import bean.SinhVienBean;
 import bean.ThongTinTaiKhoanBean;
 import bean.ThongTinViecLamBean;
@@ -67,22 +67,26 @@ public class SinhVienDao {
 		connectDB.Connect();
 		
 		// Thong tin sinh vien ( thong tin dao tao )
-		String query = "SELECT SINHVIEN.MaSinhVien, SINHVIEN.NienKhoa, SINHVIEN.ThoiGianTotNghiep, SINHVIEN.SoQuyetDinhTotNghiep, SINHVIEN.NgayKyQuyetDinhTotNghiep, TRUONG.TenTruong, NGANHDAOTAO.TenNganh\r\n" + 
-				"FROM NGANHDAOTAO INNER JOIN\r\n" + 
-				"TRUONG_NGANH ON NGANHDAOTAO.MaNganh = TRUONG_NGANH.MaNganh INNER JOIN\r\n" + 
-				"TRUONG ON TRUONG_NGANH.MaTruong = TRUONG.MaTruong RIGHT OUTER JOIN\r\n" + 
-				"SINHVIEN ON TRUONG_NGANH.MaTruongNganh = SINHVIEN.MaTruongNganh WHERE MaTaiKhoan = ?";
+		String query = "SELECT SINHVIEN.MaTaiKhoan, MaSinhVien, NienKhoa, ThoiGianTotNghiep, \r\n" + 
+				"		SoQuyetDinhTotNghiep, NgayKyQuyetDinhTotNghiep, \r\n" + 
+				"		TenTruong,TenNganh\r\n" + 
+				"FROM TRUONG RIGHT OUTER JOIN\r\n" + 
+				"     SINHVIEN ON TRUONG.MaTruong = SINHVIEN.MaTruong LEFT OUTER JOIN\r\n" + 
+				"     NGANHDAOTAO ON SINHVIEN.MaNganh = NGANHDAOTAO.MaNganh\r\n" + 
+				"WHERE SINHVIEN.MaTaiKhoan = ?";
 		ResultSet resultSet = connectDB.executeQuery(query, new Object[] { maTaiKhoan });
 		
 		if(resultSet.next()) {
+			LocalDate ngayKyQuyetDinh = resultSet.getDate("NgayKyQuyetDinhTotNghiep") == null ? null : resultSet.getDate("NgayKyQuyetDinhTotNghiep").toLocalDate();
+			LocalDate thoiGianTotNghiep = resultSet.getDate("ThoiGianTotNghiep") == null ? null : resultSet.getDate("ThoiGianTotNghiep").toLocalDate();
 			sv = new SinhVienBean();
 			sv.setMaSinhVien(resultSet.getInt("MaSinhVien"));
 			sv.setTenNganh(resultSet.getString("TenNganh"));
-			sv.setNgayKyQuyetDinhTotNghiep(resultSet.getDate("NgayKyQuyetDinhTotNghiep").toLocalDate());
+			sv.setNgayKyQuyetDinhTotNghiep(ngayKyQuyetDinh);
 			sv.setNienKhoa(resultSet.getString("NienKhoa"));
 			sv.setSoQuyetDinhTotNghiep(resultSet.getString("SoQuyetDinhTotNghiep"));
 			sv.setTenTruong(resultSet.getString("TenTruong"));
-			sv.setThoiGianTotNghiep(resultSet.getDate("ThoiGianTotNghiep").toLocalDate());
+			sv.setThoiGianTotNghiep(thoiGianTotNghiep);
 			
 			TaiKhoanDao taiKhoanDao = new TaiKhoanDao();
 			ThongTinTaiKhoanBean tk = taiKhoanDao.GetThongTin(maTaiKhoan);
@@ -94,6 +98,34 @@ public class SinhVienDao {
 		return sv;
 	}
 	
+	public int UpdateThongTinDaoTao(int maSinhVien, String maTruong, String maNganh, String nienKhoa,
+			LocalDate thoiGianTotNghiep, String soQuyetDinh, LocalDate ngayKyQuyetDinh) throws ClassNotFoundException, SQLException {
+		int rowEffect = 0;
+		
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+
+		String query = "UPDATE SINHVIEN \r\n" + 
+				"SET MaTruong = ?, MaNganh = ?, NgayKyQuyetDinhTotNghiep = ?, SoQuyetDinhTotNghiep = ?, "
+				+ "ThoiGianTotNghiep = ?, NienKhoa = ? \r\n" + 
+				"WHERE MaSinhVien = ?";
+		rowEffect = connectDB.executeUpdate(query, new Object[] { 
+												maTruong,
+												maNganh,
+												Date.valueOf(ngayKyQuyetDinh), 
+												soQuyetDinh, 
+												Date.valueOf(thoiGianTotNghiep), 
+												nienKhoa, 
+												maSinhVien });
+		
+		connectDB.Disconnect();
+		System.out.println("SinhVienDao - Update thong tin dao tao! RowEff = " + rowEffect);
+		return rowEffect;
+	}
+	
+	/*
+	 * Thong tin viec lam
+	 */
 	public ThongTinViecLamBean GetThongTinViecLam(int maSinhVien) throws ClassNotFoundException, SQLException {
 		ThongTinViecLamBean vl = null;
 		ConnectDB connectDB = new ConnectDB();
@@ -104,7 +136,7 @@ public class SinhVienDao {
 		if (resultSet.next()) {
 			vl = new ThongTinViecLamBean();
 			vl.setDiaChiCoQuan(resultSet.getString("DiaChiCoQuan"));
-			vl.setLoaiHinhCoQuan(resultSet.getString("LoaiHinhCoQuan"));
+			vl.setLoaiHinhCoQuan(resultSet.getInt("LoaiHinhCoQuan"));
 			vl.setMucDoDapUngKienThuc(resultSet.getString("MucDoDapUngKTCM"));
 			vl.setMucDoPhuHopChuyenMon(resultSet.getString("MucDoPhuHopChuyenMon"));
 			vl.setMucThuNhapTBThang(resultSet.getLong("MucThuNhapTBThang"));
@@ -118,6 +150,35 @@ public class SinhVienDao {
 		return vl;
 	}
 	
+	public int InsertThongTinViecLam(int maSinhVien, ThongTinViecLamBean thongTin) throws ClassNotFoundException, SQLException {
+		int rowEffect = 0;
+		
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "DELETE FROM DAOTAONANGCAO WHERE MaSinhVien = ?";
+		rowEffect = connectDB.executeUpdate(query, new Object[] { maSinhVien });
+		
+		query = "INSERT INTO THONGTINVIECLAM "
+				+ "(MaSinhVien, TenCongViec, ThoiGianBatDauLamViec, TenCoQuan, DiaChiCoQuan, LoaiHinhCoQuan, ViTriCongTac, MucThuNhapTBThang, MucDoPhuHopChuyenMon, MucDoDapUngKTCM)\r\n" + 
+				"VALUES(?,?,?,?,?,?,?,?,?,?)";
+		rowEffect = connectDB.executeUpdate(query, new Object[] {
+				maSinhVien, 
+				thongTin.getTenCongViec(), 
+				Date.valueOf(thongTin.getThoiGianBatDauLamViec()),
+				thongTin.getTenCoQuan(), 
+				thongTin.getDiaChiCoQuan(), 
+				thongTin.getLoaiHinhCoQuan(),
+				thongTin.getViTriCongTac(), 
+				thongTin.getMucThuNhapTBThang(), 
+				thongTin.getMucDoPhuHopChuyenMon(),
+				thongTin.getMucDoDapUngKienThuc()
+		});
+		System.out.println("SinhVienDao - Insert thong tin viec lam - RE = " + rowEffect);
+		connectDB.Disconnect();
+		return rowEffect;
+	}
+	
 	public int UpdateThongTinViecLam(int maSinhVien, ThongTinViecLamBean thongTin) throws ClassNotFoundException, SQLException {
 		int rowEffect = 0;
 		
@@ -128,24 +189,12 @@ public class SinhVienDao {
 		ResultSet rs = connectDB.executeQuery(query, new Object[] { maSinhVien });
 		// Neu chua co thi insert vao
 		if(!rs.next()) {
-			query = "INSERT INTO THONGTINVIECLAM "
-					+ "(MaSinhVien, TenCongViec, ThoiGianBatDauLamViec, TenCoQuan, DiaChiCoQuan, LoaiHinhCoQuan, ViTriCongTac, MucThuNhapTBThang, MucDoPhuHopChuyenMon, MucDoDapUngKTCM)\r\n" + 
-					"VALUES(?,?,?,?,?,?,?,?,?,?)";
-			rowEffect = connectDB.executeUpdate(query, new Object[] {
-					maSinhVien, 
-					thongTin.getTenCongViec(), 
-					Date.valueOf(thongTin.getThoiGianBatDauLamViec()),
-					thongTin.getTenCoQuan(), 
-					thongTin.getDiaChiCoQuan(), 
-					thongTin.getLoaiHinhCoQuan(),
-					thongTin.getViTriCongTac(), 
-					thongTin.getMucThuNhapTBThang(), 
-					thongTin.getMucDoPhuHopChuyenMon(),
-					thongTin.getMucDoDapUngKienThuc()
-			});
-			System.out.println("Isert thong tin viec lam");
+			InsertThongTinViecLam(maSinhVien, thongTin);
 		}
 		else {
+			query = "DELETE FROM DAOTAONANGCAO WHERE MaSinhVien = ?";
+			rowEffect = connectDB.executeUpdate(query, new Object[] { maSinhVien });
+			
 			query = "UPDATE THONGTINVIECLAM\r\n" + 
 					"SET TenCongViec = ?, ThoiGianBatDauLamViec = ?, "
 					+ "TenCoQuan = ?, DiaChiCoQuan = ?, LoaiHinhCoQuan = ?, ViTriCongTac = ?, "
@@ -163,7 +212,7 @@ public class SinhVienDao {
 					thongTin.getMucDoDapUngKienThuc(),
 					maSinhVien
 			});
-			System.out.println("Update thong tin viec lam");
+			System.out.println("SinhVienDao - Update thong tin viec lam - RE = " + rowEffect );
 		}
 		rs.close();
 		connectDB.Disconnect();
@@ -177,55 +226,116 @@ public class SinhVienDao {
 			connectDB.Connect();
 			String query = "DELETE FROM THONGTINVIECLAM WHERE MaSinhVien = ?";
 			rowEffect = connectDB.executeUpdate(query, new Object[] { maSinhVien });
+			
+			query = "DELETE FROM DAOTAONANGCAO WHERE MaSinhVien = ?";
+			rowEffect = connectDB.executeUpdate(query, new Object[] { maSinhVien });
 			connectDB.Disconnect();
 		}
+		System.out.println("SinhVienDao - Cap nhat thong tin viec lam - That nghiep - RE = " + rowEffect);
+		return rowEffect;
+	}
+		
+	public ArrayList<LoaiHinhCoQuanBean> getListLoaiHinhCoQuan() throws ClassNotFoundException, SQLException {
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		ArrayList<LoaiHinhCoQuanBean> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM LOAIHINHCOQUAN";
+		ResultSet rs = connectDB.executeQuery(query, null);
+		while(rs.next()) {
+			list.add(new LoaiHinhCoQuanBean(rs.getInt("MaLoai"), rs.getString("TenLoai")));
+		}
+		rs.close();
+		connectDB.Disconnect();
+		return list;
+	}
+	
+	public String getTenLoaiHinhCoQuan(int maLoai) throws SQLException, ClassNotFoundException {
+		String result = null;
+		
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "SELECT TenLoai FROM LOAIHINHCOQUAN WHERE MaLoai = ?";
+		Object temp = connectDB.executeScalar(query, new Object[] { maLoai });
+		result = temp == null ? null : temp.toString();
+				
+		connectDB.Disconnect();
+		return result;
+	}
+	
+	/*
+	 * Dao tao nang cao
+	 */
+	public int UpdateThongTinDaoTaoNangCao(int maSinhVien, DaoTaoNangCaoBean daoTao) throws ClassNotFoundException, SQLException {
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		int rowEffect = 0;
+		
+		String query = "DELETE FROM THONGTINVIECLAM WHERE MaSinhVien = ?";
+		rowEffect = connectDB.executeUpdate(query, new Object[] { maSinhVien });
+		
+		query = "UPDATE DAOTAONANGCAO\r\n" + 
+				"SET MaTruong = ?, MaNganh = ?, TrinhDoDaoTao = ?, HinhThucDaoTao = ?, NienKhoa = ?\r\n" + 
+				"WHERE (MaSinhVien = ?)";
+		rowEffect = connectDB.executeUpdate(query, new Object[] {
+				daoTao.getMaTruong(), 
+				daoTao.getMaNganh(),
+				daoTao.getTrinhDoDaoTao(),
+				daoTao.getHinhThucDaoTao(),
+				daoTao.getNienKhoa(),
+				maSinhVien
+		});
+		System.out.println("SinhVienDao - Update thong tin dao tao nang cao - RE: " + rowEffect);
+		System.out.println(daoTao.getMaTruong());
+		System.out.println(daoTao.getMaNganh());
+		connectDB.Disconnect();
 		return rowEffect;
 	}
 	
-	
-
-	/*public int Themsv( String nienkhoa, Date thoigiantotnghiep, String soquyetdinhtn, Date ngayki
-			) throws Exception {
-		coso cs = new coso();
-		cs.ketnoi();
-		String sql = "insert into SINHVIEN(NienKhoa,ThoiGianTotNghiep,SoQuyetDinhTotNghiep,NgayKyQuyetDinhTotNghiep) values(?,?,?,?)";
-		PreparedStatement stm = cs.con.prepareStatement(sql);
-		//stm.setString(1, masv);
-		stm.setString(1, nienkhoa);
-		stm.setDate(2, new java.sql.Date(thoigiantotnghiep.getTime()));
-		stm.setString(3, soquyetdinhtn);
-		stm.setDate(4, new java.sql.Date(ngayki.getTime()));
-		//stm.setString(6, matk);
-		//stm.setString(7, matruongnganh);
-		int kq = stm.executeUpdate();
-		cs.con.close();
-		return kq;
-
+	public int InsertThongTinDaoTaoNangCao(int maSinhVien, DaoTaoNangCaoBean daoTao) throws ClassNotFoundException, SQLException {
+		int rowEffect = 0;
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "DELETE FROM THONGTINVIECLAM WHERE MaSinhVien = ?";
+		rowEffect = connectDB.executeUpdate(query, new Object[] { maSinhVien });
+		
+		query = "INSERT INTO DAOTAONANGCAO\r\n" + 
+				"(MaSinhVien, MaTruong, MaNganh, TrinhDoDaoTao, HinhThucDaoTao, NienKhoa)\r\n" + 
+				"VALUES(?,?,?,?,?,?)";
+		rowEffect = connectDB.executeUpdate(query, new Object[] {
+				maSinhVien,
+				daoTao.getMaTruong(),
+				daoTao.getMaNganh(), 
+				daoTao.getTrinhDoDaoTao(),
+				daoTao.getHinhThucDaoTao(),
+				daoTao.getNienKhoa()
+		});
+		System.out.println("SinhVienDao - Insert thong tin dao tao - RE: " + rowEffect);
+		connectDB.Disconnect();
+		return rowEffect;
 	}
-	public int Suasv( String nienkhoa, Date thoigiantotnghiep, String soquyetdinhtn, Date ngayki) throws Exception 
-	{
-		coso cs=new coso();
-		cs.ketnoi();
-		String sql="update SINHVIEN set ThoiGianTotNghiep=?,SoQuyetDinhTotNghiep=?,NgayKiQuyetDinhTotNghiep=? where NienKhoa=?";
-		PreparedStatement stm = cs.con.prepareStatement(sql);
-		stm.setString(4, nienkhoa);
-		stm.setDate(1, new java.sql.Date(thoigiantotnghiep.getTime()));
-		stm.setString(2, soquyetdinhtn);
-		stm.setDate(3, new java.sql.Date(ngayki.getTime()));
-        int kq = stm.executeUpdate();
-		cs.con.close();
-		return kq;
-	}
-   public int xoa(String masv) throws Exception
-   {
-	   coso cs=new coso();
-	   cs.ketnoi();
-	   String sql="delete from SINHVIEN where MaSinhVien=?";
-	   PreparedStatement stm=cs.con.prepareStatement(sql);
-	   stm.setString(1, masv);
-	   int kq=stm.executeUpdate();
-	   cs.con.close();
-	   return kq;
-   }*/
 	
+	public DaoTaoNangCaoBean GetThongTinDaoTaoNangCao(int maSinhVien) throws ClassNotFoundException, SQLException {
+		DaoTaoNangCaoBean daoTao = null;
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "SELECT * FROM DAOTAONANGCAO WHERE MaSinhVien = ?";
+		ResultSet rs = connectDB.executeQuery(query, new Object[] {
+				maSinhVien
+		});
+		if(rs.next()) {
+			daoTao = new DaoTaoNangCaoBean();
+			daoTao.setMaSinhVien(rs.getInt("MaSinhVien"));
+			daoTao.setMaTruong(rs.getString("MaTruong"));
+			daoTao.setMaNganh(rs.getString("MaNganh"));
+			daoTao.setTrinhDoDaoTao(rs.getString("TrinhDoDaoTao"));
+			daoTao.setHinhThucDaoTao(rs.getString("HinhThucDaoTao"));
+		}
+		connectDB.Disconnect();
+		return daoTao;
+	}
 }
