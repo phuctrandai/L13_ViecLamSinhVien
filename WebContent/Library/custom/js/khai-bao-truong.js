@@ -12,8 +12,7 @@ var maTruong = $('#maTruong'),
 tenTruong = $('#tenTruong'),
 diaChi = $('#diaChi'),
 email = $('#email'),
-soDienThoai = $('#soDienThoai'),
-soFax = $('#soFax');
+soDienThoai = $('#soDienThoai');
 
 
 /*
@@ -30,9 +29,9 @@ $('#saveBtn').click(function() {
             
             !validString(diaChi.val(), 'địa chỉ') ||
             
-            !validSDT(soDienThoai.val(), 'số điện thoại') ||
+            !validEmail(email.val()) ||
             
-            !validSDT(soFax.val(), 'số fax')
+            !validSDT(soDienThoai.val(), 'số điện thoại')
         )
         {
             isOK = false;
@@ -131,6 +130,23 @@ function validString(value, subject) {
         r = false;
     }
     return r;
+}
+/*
+ * Validate email
+ */
+function validEmail(value) {
+   let r = true;
+   if(value == '') {
+       message = 'Vui lòng nhập email !';
+       r = false;
+   } else {
+       var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+       if(!reg.test(value)) {
+           message = 'Vui lòng nhập email đúng định dạng!';
+           r = false;
+       }
+   }
+   return r;
 }
 
 /*

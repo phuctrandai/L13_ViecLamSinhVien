@@ -19,6 +19,7 @@ var tieuDeThongBao = $('#tieuDeThongBao'),
 
     error = 'Lỗi',
     message = '',
+    current = null,
     capNhatThanhCong = false;
 
 /*
@@ -26,42 +27,42 @@ var tieuDeThongBao = $('#tieuDeThongBao'),
  */
 $('#capNhatBtn').click(function() {    
     var isOK = true;
-    if( !validString(hoTen.val(), 'họ tên')) { thongBao(error, message); return; }
+    if( !validString(hoTen.val(), 'họ tên')) { thongBao(error, message); current = hoTen; return; }
     
-    if(!validDate(ngaySinh.val(), 'ngày sinh')) { thongBao(error, message); return; }
+    if(!validDate(ngaySinh.val(), 'ngày sinh')) { thongBao(error, message); current = ngaySinh; return; }
     
-    if(!validString(danToc.val(), 'dân tộc')) { thongBao(error, message); return ;}
+    if(!validString(danToc.val(), 'dân tộc')) { thongBao(error, message); current = danToc; return ;}
     
-    if(!validString(quocTich.val(), 'quốc tịch')) { thongBao(error, message); return; }
+    if(!validString(quocTich.val(), 'quốc tịch')) { thongBao(error, message); current = quocTich; return; }
     
-    if(!validCMND(cMND.val())) { thongBao(error, message); return ;}
+    if(!validCMND(cMND.val())) { thongBao(error, message); current = cMND; return ;}
     
-    if(!validString(noiCapCMND.val(), 'nơi cấp chứng minh nhân dân')) { thongBao(error, message); return;}
+    if(!validString(noiCapCMND.val(), 'nơi cấp chứng minh nhân dân')) { thongBao(error, message); current = noiCapCMND; return;}
     
-    if(!validString(diaChi.val(), 'địa chỉ')) { thongBao(error, message); return ;}
+    if(!validString(diaChi.val(), 'địa chỉ')) { thongBao(error, message); current = diaChi; return ;}
     
-    if(!validEmail(email.val())) { thongBao(error, message); return; }
+    if(!validEmail(email.val())) { thongBao(error, message); current = email; return; }
     
-    if(!validSDT(soDienThoai.val())) { thongBao(error, message); return;}
+    if(!validSDT(soDienThoai.val())) { thongBao(error, message); current = soDienThoai; return;}
     
-    if(!validNienKhoa(nienKhoa.val(), 'niên khóa')) { thongBao(error, message); return;}
+    if(!validNienKhoa(nienKhoa.val(), 'niên khóa')) { thongBao(error, message); current = nienKhoa; return;}
     
-    if(!validDate(thoiGianTotNghiep.val(), 'thời gian tốt nghiệp')) { thongBao(error, message); return;}
+    if(!validDate(thoiGianTotNghiep.val(), 'thời gian tốt nghiệp')) { thongBao(error, message); current = thoiGianTotNghiep; return;}
     
-    if(!validString(soQuyetDinhTotNghiep.val(), 'số quyết định tốt nghiệp')) { thongBao(error, message); return ;}
+    if(!validString(soQuyetDinhTotNghiep.val(), 'số quyết định tốt nghiệp')) { thongBao(error, message); current = soQuyetDinhTotNghiep; return ;}
     
-    if(!validDate(ngayKyQuyetDinh.val(), 'ngày ký quyết định tốt nghiệp')) { thongBao(error, message); return;}
+    if(!validDate(ngayKyQuyetDinh.val(), 'ngày ký quyết định tốt nghiệp')) { thongBao(error, message); current = ngayKyQuyetDinh; return;}
     
     if($('#dangDiLam').css('display') == 'block') {    
         if( !validString($('#tenCongViec').val(), 'tên công việc')) {
-            thongBao(error, message); return;
+            thongBao(error, message); current = $('#tenCongViec'); return;
         }
         if(!validDate($('#thoiGianBatDauLamViec').val(), 'thời gian bắt đầu làm việc')) {
-            thongBao(error, message); return;
+            thongBao(error, message); current = $('#thoiGianBatDauLamViec'); return;
         }
     } else if($('#dangHocNangCao').css('display') == 'block') {
         if(!validNienKhoa($('#nienKhoaNangCao').val(), 'niên khóa học nâng cao')) {
-            thongBao(error, message); return;
+            thongBao(error, message); current = $('#nienKhoaNangCao'); return;
         }
     }
     capNhat();
@@ -298,5 +299,6 @@ closeModal.click(function(){
         thongBaoModal.fadeOut(100);
         closeModal.fadeOut(500);
         $('.modal-backdrop').remove();
+        current.focus();
     }
 });

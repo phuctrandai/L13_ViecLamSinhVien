@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.LoaiTaiKhoanBean;
 import bean.TaiKhoanBean;
+import bean.ThongTinTaiKhoanBean;
 import bo.TaiKhoanBo;
 
 /**
@@ -42,10 +43,10 @@ public class TaiKhoanController extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+				
 		String command = request.getParameter("command");
 		if(command != null) {
-			if(command.equals("login")) {
+			if(command.equals("login")) { 
 				login(request, response);
 				return;
 			}
@@ -59,6 +60,44 @@ public class TaiKhoanController extends HttpServlet {
 				case "info": {
 					request.getRequestDispatcher("thongTinTaiKhoan.jsp").forward(request, response);
 					return;
+				}
+				case "checkMatKhauCu": {
+					String matKhau = request.getParameter("matKhauCu");
+					try {
+						if(taiKhoanBo.CheckMatKhau(matKhau)) {
+							response.getWriter().print("OK");
+						} else {
+							response.getWriter().print("NOTOK");
+						}
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+				case "doiMatKhau": {
+					request.getRequestDispatcher("doiMatKhau.jsp").forward(request, response);
+					return;
+				}
+				case "luuMatKhau": {
+					try {
+						LuuMatKhau(request, response);
+						response.getWriter().print("OK");
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+				case "xoaTaiKhoan": {
+					int maTaiKhoan = Integer.parseInt(request.getParameter("maTaiKhoan"));
+					try {
+						taiKhoanBo.XoaTaiKhoan(maTaiKhoan);
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+				case "themTaiKhoan" : {
+					break;
 				}
 				default: break;
 				}
@@ -84,6 +123,7 @@ public class TaiKhoanController extends HttpServlet {
 			TaiKhoanBean taiKhoanBean = taiKhoanBo.getTaiKhoan(tenTaiKhoan, matKhau, maLoai);
 			if(taiKhoanBean != null) {
 				request.getSession().setAttribute("taiKhoan", taiKhoanBean);
+				
 				switch(maLoai) {
 				case 1: {
 					response.sendRedirect("truong");
@@ -94,8 +134,13 @@ public class TaiKhoanController extends HttpServlet {
 					return;
 				}
 				case 3: {
+					ArrayList<TaiKhoanBean> listTaiKhoan = taiKhoanBo.GetListTaiKhoan();
+					ArrayList<ThongTinTaiKhoanBean> listThongTin = taiKhoanBo.GetListThongTinTaiKhoan(listTaiKhoan);
 					
-					break;
+					request.setAttribute("listTaiKhoan", listTaiKhoan);
+					request.setAttribute("listThongTin", listThongTin);
+					request.getRequestDispatcher("quanLyTaiKhoan.jsp").forward(request, response);
+					return;
 				}
 				default: break;
 				}
@@ -107,5 +152,15 @@ public class TaiKhoanController extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/*
+	 * Doi mat khau
+	 */
+	private void LuuMatKhau(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, SQLException {
+		int maTaiKhoan = ((TaiKhoanBean) request.getSession().getAttribute("taiKhoan")).getMaTaiKhoan();
+		String matKhauMoi = request.getParameter("matKhauMoi");
+		int result = taiKhoanBo.DoiMatKhau(maTaiKhoan, matKhauMoi);
+		System.out.println("TaiKhoanController - Doi mat khau - RE:" + result);
 	}
 }

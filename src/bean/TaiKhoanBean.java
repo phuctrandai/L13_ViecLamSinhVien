@@ -6,7 +6,16 @@ public class TaiKhoanBean {
 	private String tenTaiKhoan;
 	private String matKhau;
 	private int maLoai;
+	private String tenLoai;
 	
+	public String getTenLoai() {
+		return tenLoai;
+	}
+
+	public void setTenLoai(String tenLoai) {
+		this.tenLoai = tenLoai;
+	}
+
 	public int getMaTaiKhoan() {
 		return maTaiKhoan;
 	}

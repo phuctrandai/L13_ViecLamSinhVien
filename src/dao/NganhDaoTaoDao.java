@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -11,7 +10,7 @@ public class NganhDaoTaoDao {
 		ArrayList<NganhDaoTaoBean> listNganh = new ArrayList<NganhDaoTaoBean>();
 		ConnectDB s = new ConnectDB();
 		s.Connect();
-		String sql = "select * from V_NGANHDT where MaTruong=?";
+		String sql = "select * from NGANHDAOTAO Where MaTruong = ?";
 		
 		ResultSet rs = s.executeQuery(sql, new Object[] { matruong });
 		while (rs.next()) {

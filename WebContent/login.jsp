@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Đăng nhập</title>
-	<link rel="stylesheet" href=".\Library\boostrap-4\css\bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">	
 	<link rel="stylesheet" href=".\Library\custom\css\login.css">
 </head>
 <body>
@@ -28,19 +28,18 @@ if(request.getAttribute("listLoai") != null) {
 			<img id="profile-img" class="profile-img-card"
 				src="./image/avatar_2x.png" />
 
-			<form class="form-signin" action="taiKhoan" method="post">
+			<form class="form-signin" action="taiKhoan" method="post" onsubmit="return validLogin()">
 				<input type="hidden" name="command" value="login">
 				
 				<div class="form-group">
 					<label for="tenTaiKhoan">Tên tài khoản:</label>
-					<input type="text" id="tenTaiKhoan" name="tenTaiKhoan" class="form-control"
-					placeholder="" required autofocus>
+					<input type="text" id="tenTaiKhoan" name="tenTaiKhoan" class="form-control" autofocus>
 				</div>
 				
 				<div class="form-group">
 					<label for="password">Mật khẩu:</label>
 					<input type="password" id="matKhau" name="matKhau"
-					class="form-control" placeholder="" required>
+					class="form-control">
 				</div>
 				
 				<div class="form-group">
@@ -61,5 +60,18 @@ if(request.getAttribute("listLoai") != null) {
 		</div>
 	</div>
 </body>
+	<script>
+		function validLogin() {
+		    var tenTaiKhoan = $('#tenTaiKhoan');
+		    if(tenTaiKhoan.val() == '') {
+		        alert('Tên đăng nhập không được trống!');
+		        return false;
+		    }
+		};
+	</script>
 	<script src=".\Library\boostrap-4\js\bootstrap.min.js"></script>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 </html>

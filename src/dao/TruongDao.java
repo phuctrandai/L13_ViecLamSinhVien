@@ -72,10 +72,7 @@ public class TruongDao {
 		ConnectDB connectDB = new ConnectDB();
 		connectDB.Connect();
 
-		String query = "DELETE FROM TRUONG_NGANH WHERE MaTruong = ?";
-		connectDB.executeUpdate(query, new Object[] { maTruong });
-
-		query = "DELETE FROM TRUONG WHERE MaTruong = ?";
+		String query = "DELETE FROM TRUONG WHERE MaTruong = ?";
 		int rowEffect = connectDB.executeUpdate(query, new Object[] { maTruong });
 
 		connectDB.Disconnect();

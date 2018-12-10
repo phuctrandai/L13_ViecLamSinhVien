@@ -24,6 +24,8 @@
 NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vie", "VN"));
 // lay thong tin sinh vien
 SinhVienBean sv = (SinhVienBean) request.getAttribute("sinhVien");
+String tinhTrangViecLam = (String)	request.getAttribute("tinhTrangViecLam");
+String[] listTrinhDoDaoTao = new String[]{ "Nghiên cứu sinh", "Thạc sĩ", "Tiến sĩ" };
 
 // khoi tao gia tri mac dinh
 String hoTen = "", danToc = "", quocTich = "", ngaySinh = "", gioiTinh = "", cMND = "", noiCapCMND = "",
@@ -57,8 +59,8 @@ if(sv != null) {
 		gioiTinh = tk.isGioiTinh() ? "Nam" : "Nữ";
 	}
 	
-	if(sv.getThongTinViecLam() != null) {
-		ThongTinViecLamBean vl = sv.getThongTinViecLam();
+	if(tinhTrangViecLam == "dangDiLam") {
+		ThongTinViecLamBean vl = (ThongTinViecLamBean) request.getAttribute("thongTinViecLam");
 		// Thong tin viec lam
 		tenCongViec = vl.getTenCongViec() == null ? "" : vl.getTenCongViec();
 		thoiGianBatDauLamViec = vl.getThoiGianBatDauLamViec() == null ? "" : vl.getThoiGianBatDauLamViec().toString();
@@ -68,7 +70,7 @@ if(sv != null) {
 		mucDoDapUngKTCM = vl.getMucDoDapUngKienThuc() == null ? "" : vl.getMucDoDapUngKienThuc();
 		mucDoPhuHopChuyenMon = vl.getMucDoPhuHopChuyenMon() == null ? "" : vl.getMucDoPhuHopChuyenMon();
 		mucThuNhapTBThang = vl.getMucThuNhapTBThang();
-		loaiHinhCoQuan = request.getAttribute("loaiHinhCoQuan") == null ? "" : request.getAttribute("loaiHinhCoQuan").toString();
+		loaiHinhCoQuan = listTrinhDoDaoTao[vl.getLoaiHinhCoQuan()];
 	}
 }
 
@@ -85,7 +87,7 @@ if(sv != null) {
 				<div class="card-header">
 					<span style="font-size: 1.75rem; font-weight: 500;">Thông tin chung</span>
 					
-					<a href="sinhVien?command=doiMatKhau" class="float-right" title="Đổi mật khẩu">
+					<a href="taiKhoan?command=doiMatKhau" class="float-right" title="Đổi mật khẩu">
 						<i class="fa fa-key text-danger" style="font-size:24px"></i>
 					</a>
 					<a href="sinhVien?command=chinhSua" class="float-right mr-5" title="Chỉnh sửa thông tin">

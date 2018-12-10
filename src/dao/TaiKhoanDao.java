@@ -36,7 +36,7 @@ public class TaiKhoanDao {
 		ConnectDB connectDB = new ConnectDB();
 		connectDB.Connect();
 		
-		String query = "select * from ThongTinTaiKhoan where MaTaiKhoan = ?";
+		String query = "select * from THONGTINTAIKHOAN where MaTaiKhoan = ?";
 		ResultSet resultSet = connectDB.executeQuery(query, new Object[] { maTaiKhoan });
 		if(resultSet.next()) {
 			tk = new ThongTinTaiKhoanBean();
@@ -55,6 +55,7 @@ public class TaiKhoanDao {
 		}
 		resultSet.close();
 		connectDB.Disconnect();
+		
 		return tk;
 	}
 	
@@ -169,5 +170,66 @@ public class TaiKhoanDao {
 		rs.close();
 		connectDB.Disconnect();
 		return list;
+	}
+	
+	public ArrayList<TaiKhoanBean> GetListTaiKhoan() throws ClassNotFoundException, SQLException {
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		ArrayList<TaiKhoanBean> list = new ArrayList<>();
+		
+		String query = "SELECT TAIKHOAN.*, TenLoai FROM TAIKHOAN JOIN LOAITAIKHOAN ON TAIKHOAN.MaLoai = LOAITAIKHOAN.MaLoai";
+		ResultSet rs = connectDB.executeQuery(query, null);
+		while(rs.next()) {
+			TaiKhoanBean tk = new TaiKhoanBean(rs.getInt("MaTaiKhoan"), rs.getString("TenTaiKhoan"), rs.getString("MatKhau"), rs.getInt("MaLoai"));
+			tk.setTenLoai(rs.getString("TenLoai"));
+			list.add(tk);
+		}
+		rs.close();
+		connectDB.Disconnect();
+		System.out.println("TaiKhoanDao - Get list tai khoan - RE: " + list.size());
+		return list;
+	}
+	
+	public int XoaTaiKhoan(int maTaiKhoan) throws ClassNotFoundException, SQLException {
+		int rowEffect = 0;
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "DELETE FROM TAIKHOAN WHERE MaTaiKhoan = ?";
+		rowEffect = connectDB.executeUpdate(query, new Object[] { maTaiKhoan });
+		
+		connectDB.Disconnect();
+		System.out.println("TaiKhoanDao - Xoa tai khoan " + maTaiKhoan + " - RE: " + rowEffect);
+		return rowEffect;
+	}
+	
+	/*
+	 * Doi mat khau
+	 */
+	public boolean CheckMatKhau(String matKhau) throws ClassNotFoundException, SQLException {
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		boolean result = false;
+		String query = "SELECT * FROM TAIKHOAN WHERE MatKhau = ?";
+		ResultSet rs = connectDB.executeQuery(query, new Object[] { matKhau });
+		if(rs.next()) {
+			result = true;
+		}
+		rs.close();
+		connectDB.Disconnect();
+		return result;
+	}
+	
+	public int DoiMatKhau(int maTaiKhoan, String matKhauMoi) throws ClassNotFoundException, SQLException {
+		int rowEffect = 0;
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "UPDATE TAIKHOAN SET MatKhau = ? WHERE MaTaiKhoan = ?";
+		rowEffect = connectDB.executeUpdate(query, new Object[] { matKhauMoi, maTaiKhoan });
+		
+		connectDB.Disconnect();
+		return rowEffect;
 	}
 }

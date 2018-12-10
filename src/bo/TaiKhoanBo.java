@@ -27,4 +27,34 @@ public class TaiKhoanBo {
 	public ArrayList<LoaiTaiKhoanBean> getListLoai() throws ClassNotFoundException, SQLException {
 		return taiKhoanDao.getListLoai();
 	}
+	
+	public ArrayList<TaiKhoanBean> GetListTaiKhoan() throws ClassNotFoundException, SQLException {
+		return taiKhoanDao.GetListTaiKhoan();
+	}
+	
+	public ArrayList<ThongTinTaiKhoanBean> GetListThongTinTaiKhoan(ArrayList<TaiKhoanBean> list) throws ClassNotFoundException, SQLException {
+		ArrayList<ThongTinTaiKhoanBean> result = new ArrayList<>();
+		for(TaiKhoanBean tk : list) {
+			ThongTinTaiKhoanBean tt = taiKhoanDao.GetThongTin(tk.getMaTaiKhoan());
+			
+			result.add(tt);
+		}
+		return result;
+	}
+	
+	public int XoaTaiKhoan(int maTaiKhoan) throws ClassNotFoundException, SQLException {
+		return taiKhoanDao.XoaTaiKhoan(maTaiKhoan);
+	}
+	
+	/*
+	 * Doi mat khau
+	 */
+	public int DoiMatKhau(int maTaiKhoan, String matKhauMoi) throws ClassNotFoundException, SQLException {
+		return taiKhoanDao.DoiMatKhau(maTaiKhoan, matKhauMoi);
+	}
+	
+	public boolean CheckMatKhau(String matKhau) throws ClassNotFoundException, SQLException {
+		if(matKhau == null) return false;
+		return taiKhoanDao.CheckMatKhau(matKhau);
+	}
 }

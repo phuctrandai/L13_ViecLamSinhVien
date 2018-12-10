@@ -90,7 +90,10 @@ public class SinhVienController extends HttpServlet {
 		SinhVienBean sv = GetSinhVienTheoTaiKhoan(maTaiKhoan);
 		try {
 			int maLoai = sv.getThongTinViecLam() == null ? 0 : sv.getThongTinViecLam().getLoaiHinhCoQuan();
+			request.setAttribute("thongTinViecLam", svb.GetThongTinViecLam(sv.getMaSinhVien()));				
 			request.setAttribute("loaiHinhCoQuan", svb.GetTenLoaiHinhCoQuan(maLoai));
+			String tinhTrangViecLam = svb.GetTinhTrangViecLam(sv.getMaSinhVien());
+			request.setAttribute("tinhTrangViecLam", tinhTrangViecLam);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
